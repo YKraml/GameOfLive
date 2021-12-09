@@ -9,8 +9,8 @@ import static java.awt.BorderLayout.SOUTH;
 
 public class Main {
 
-    private static final int SIZE = 25;
-    private static final long TIME_BETWEEN_UPDATES = 50;
+    private static final int SIZE = 200;
+    private static final long TIME_BETWEEN_UPDATES = 70;
 
     public static void main(String[] args) {
 

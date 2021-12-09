@@ -1,15 +1,15 @@
-Cell.java
- Cell
-MyFrame.java
- MyFrame
-Location.java
- Location
 GameOfLive.java
  GameOfLive
-Board.java
- Board
+MyFrame.java
+ MyFrame
 Neighborhood.java
  Neighborhood
+Board.java
+ Board
+Cell.java
+ Cell
+Location.java
+ Location
 Main.java
  Main
  Main$1

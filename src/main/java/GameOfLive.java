@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.List;
+
 public class GameOfLive {
 
     private final Board board;
@@ -25,8 +28,8 @@ public class GameOfLive {
 
         Cell[][] cells = board.getCells();
 
-        for (Cell[] row : cells) {
-
+        List<Cell[]> rowList = Arrays.asList(cells);
+        rowList.parallelStream().parallel().forEach(row -> {
             for (Cell cell : row) {
                 Neighborhood neighborhood = board.getNeighborsFromCell(cell);
                 int aliveNeighborCount = neighborhood.getAliveNeighborsCount();
@@ -40,8 +43,8 @@ public class GameOfLive {
                 }
 
             }
+        });
 
-        }
     }
 
 }
