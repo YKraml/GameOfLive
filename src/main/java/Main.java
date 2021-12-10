@@ -9,7 +9,7 @@ import static java.awt.BorderLayout.SOUTH;
 
 public class Main {
 
-    private static final int SIZE = 200;
+    private static final int SIZE = 100;
     private static final long TIME_BETWEEN_UPDATES = 70;
 
     public static void main(String[] args) {
@@ -40,7 +40,10 @@ public class Main {
 
         JButton button = new JButton("Shuffle");
         myFrame.add(button, SOUTH);
-        button.addActionListener(e -> board.shuffle());
+        button.addActionListener(e -> {
+            board.shuffle();
+            gameOfLive.addBoard();
+        });
 
 
         myFrame.setVisible();

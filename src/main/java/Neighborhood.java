@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.Collection;
+
 public class Neighborhood {
 
     private final Cell[] neighbors;
@@ -17,5 +20,9 @@ public class Neighborhood {
 
         }
         return aliveNeighborsCount;
+    }
+
+    public Collection<Cell> getNeighbors(){
+        return Arrays.asList(neighbors);
     }
 }

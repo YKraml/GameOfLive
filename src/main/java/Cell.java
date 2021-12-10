@@ -17,7 +17,9 @@ public class Cell {
     }
 
 
-    public void update() {
+    public boolean update() {
+
+        boolean changed = this.isALive && this.willBeKilled || !this.isALive && this.willBeBorn;
 
         if (this.willBeKilled) {
             this.isALive = false;
@@ -30,5 +32,6 @@ public class Cell {
         this.willBeBorn = false;
         this.willBeKilled = false;
 
+        return changed;
     }
 }

@@ -1,5 +1,9 @@
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Board {
 
@@ -75,5 +79,14 @@ public class Board {
 
     public int getWidth() {
         return this.cells[0].length;
+    }
+
+    public Collection<? extends Cell> getCellsAsCollection() {
+
+        Collection<Cell> cellCollection = new HashSet<>();
+        for (Cell[] row : this.cells) {
+            cellCollection.addAll(Arrays.asList(row));
+        }
+        return cellCollection;
     }
 }
