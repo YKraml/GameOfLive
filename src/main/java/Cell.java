@@ -12,8 +12,9 @@ public class Cell {
         this.willBeKilled = true;
     }
 
-    public void markToBeBorn() {
+    public Cell markToBeBorn() {
         this.willBeBorn = true;
+        return this;
     }
 
 

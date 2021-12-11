@@ -2,16 +2,17 @@ Location.java
  Location
 MyFrame.java
  MyFrame
-Neighborhood.java
- Neighborhood
 Cell.java
  Cell
-DrawPanel.java
- DrawPanel
+Neighborhood.java
+ Neighborhood
 Board.java
  Board
 GameOfLive.java
  GameOfLive
+MyMouseMotionListener.java
+ MyMouseMotionListener
 Main.java
  Main
- Main$1
+DrawPanel.java
+ DrawPanel

@@ -9,9 +9,9 @@ public class GameOfLive {
 
     public GameOfLive(Board board) {
         this.board = board;
-        needsToBeChecked = new HashSet<>();
+        needsToBeChecked = Collections.synchronizedSet(new HashSet<>());
         needsToBeChecked.addAll(board.getCellsAsCollection());
-        needsToBeUpdated = new HashSet<>();
+        needsToBeUpdated = Collections.synchronizedSet(new HashSet<>());
         needsToBeUpdated.addAll(board.getCellsAsCollection());
     }
 
@@ -24,7 +24,7 @@ public class GameOfLive {
 
     private void killAndRevive() {
 
-        this.needsToBeUpdated.parallelStream().forEach(cell ->{
+        this.needsToBeUpdated.forEach(cell ->{
             boolean changed = cell.update();
             if(changed){
                 this.needsToBeChecked.add(cell);
@@ -36,24 +36,52 @@ public class GameOfLive {
 
     private void check() {
 
-        this.needsToBeChecked.parallelStream().forEach(cell -> {
+        this.needsToBeChecked.forEach(cell -> {
             Neighborhood neighborhood = board.getNeighborsFromCell(cell);
             int aliveNeighborCount = neighborhood.getAliveNeighborsCount();
             if (aliveNeighborCount == 3) {
                 cell.markToBeBorn();
                 this.needsToBeUpdated.add(cell);
+                this.needsToBeUpdated.addAll(board.getNeighborsFromCell(cell).getNeighbors());
             } else if (aliveNeighborCount < 2) {
                 cell.markToBeKilled();
                 this.needsToBeUpdated.add(cell);
+                this.needsToBeUpdated.addAll(board.getNeighborsFromCell(cell).getNeighbors());
             } else if (aliveNeighborCount > 3) {
                 cell.markToBeKilled();
                 this.needsToBeUpdated.add(cell);
+                this.needsToBeUpdated.addAll(board.getNeighborsFromCell(cell).getNeighbors());
             }
         });
 
     }
 
-    public void addBoard() {
+    public void shuffle() {
+        this.board.shuffle();
         this.needsToBeChecked.addAll(this.board.getCellsAsCollection());
+    }
+
+    public void setCellAlive(int cellXPos, int cellYPos) {
+        Cell cell = this.board.getCellAt(cellXPos, cellYPos);
+        cell.markToBeBorn().update();
+
+        this.needsToBeUpdated.add(this.board.getCellAt(cellXPos, cellYPos));
+        this.needsToBeUpdated.addAll(board.getNeighborsFromCell(cell).getNeighbors());
+        this.needsToBeChecked.add(this.board.getCellAt(cellXPos, cellYPos));
+        this.needsToBeChecked.addAll(board.getNeighborsFromCell(cell).getNeighbors());
+    }
+
+    public int getSize() {
+        return this.board.getWidth();
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void clear(){
+        this.needsToBeChecked.clear();
+        this.needsToBeUpdated.clear();
+        this.board.clear();
     }
 }

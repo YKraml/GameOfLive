@@ -32,8 +32,10 @@ public class Board {
             for (Cell cell : row) {
                 if (Math.random() >= SHUFFLE_CONSTANT) {
                     cell.markToBeBorn();
-                    cell.update();
+                } else {
+                    cell.markToBeKilled();
                 }
+                cell.update();
             }
         }
     }
@@ -53,7 +55,7 @@ public class Board {
 
         }
 
-        return new Neighborhood(neighbors);
+        return new Neighborhood(cell, neighbors);
     }
 
     private Point getPositionOfCell(Cell targetCell) {
@@ -88,5 +90,22 @@ public class Board {
             cellCollection.addAll(Arrays.asList(row));
         }
         return cellCollection;
+    }
+
+    public void clear() {
+        for (Cell[] row : this.cells) {
+            for (Cell cell : row) {
+                cell.markToBeKilled();
+                cell.update();
+            }
+        }
+    }
+
+    public void setCellAlive(int cellXPos, int cellYPos) {
+        this.cells[cellXPos][cellYPos].markToBeBorn().update();
+    }
+
+    public Cell getCellAt(int cellXPos, int cellYPos) {
+        return this.cells[cellXPos][cellYPos];
     }
 }
