@@ -56,6 +56,6 @@ public class MyMouseMotionListener extends MouseAdapter {
         int cellXPos = (int) (normalisedMouseXPos * boardSize);
         int cellYPos = (int) (normalisedMouseYPos * boardSize);
 
-        return new Point(cellXPos, cellYPos);
+        return new Point(Math.max(Math.min(cellXPos, boardSize - 1), 0), Math.max(Math.min(cellYPos, boardSize - 1), 0));
     }
 }

@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 import static java.awt.BorderLayout.*;
@@ -29,15 +27,8 @@ public class Main {
         DrawPanel drawPanel = new DrawPanel(gameOfLive);
         myFrame.add(drawPanel, BorderLayout.CENTER);
 
-        //Timer
-        Timer timer = new Timer(0, e -> {
-            Main.setCalculatedRounds(Main.getCalculatedRounds() + 1);
-            if (!Main.isStop()) {
-                gameOfLive.makeRound();
-            }
-        });
-        timer.setDelay(Main.TIME_BETWEEN_UPDATES);
-        timer.start();
+        //RoundTimer
+        new Thread(new MyRunnable(gameOfLive)).start();
 
 
         //ShuffleButton
@@ -65,11 +56,9 @@ public class Main {
             }
             int value = source.getValue();
             if (value == 0) {
-                return;
+                value = 1;
             }
             Main.setTimeBetweenUpdates(1000 / value);
-            timer.setDelay(Main.getTimeBetweenUpdates());
-            timer.restart();
         });
 
 

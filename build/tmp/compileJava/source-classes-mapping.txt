@@ -1,18 +1,20 @@
+GameOfLive.java
+ GameOfLive
 Location.java
  Location
 MyFrame.java
  MyFrame
-Cell.java
- Cell
 Neighborhood.java
  Neighborhood
 Board.java
  Board
-GameOfLive.java
- GameOfLive
+Cell.java
+ Cell
 MyMouseMotionListener.java
  MyMouseMotionListener
 Main.java
  Main
+MyRunnable.java
+ MyRunnable
 DrawPanel.java
  DrawPanel
