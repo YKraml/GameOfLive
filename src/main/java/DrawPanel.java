@@ -68,7 +68,9 @@ public class DrawPanel extends JPanel {
         }
 
         g.setColor(Color.BLACK);
-        g.drawString(String.valueOf(Main.getLastCalculatedRounds()), 10, 10);
+        g.drawString("Updates: " +String.valueOf(Main.getLastCalculatedRounds()), 0,10);
+        g.drawString("Checked: " + gameOfLive.getCheckedAmount(), 0,20);
+        g.drawString("Updated: " + gameOfLive.getUpdatedAmount(), 0,30);
     }
 
     public void setMousePos(Point mousePos) {

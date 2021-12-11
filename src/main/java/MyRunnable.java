@@ -10,17 +10,25 @@ public class MyRunnable implements Runnable {
     public void run() {
         while (true) {
 
-            long startTime = System.currentTimeMillis();
+            long startTime = System.nanoTime();
 
             Main.setCalculatedRounds(Main.getCalculatedRounds() + 1);
             if (!Main.isStop()) {
                 gameOfLive.makeRound();
             }
 
-            long endTime = System.currentTimeMillis();
+            long endTime = System.nanoTime();
 
             try {
-                Thread.sleep(Math.max(0, Main.getTimeBetweenUpdates() - (endTime - startTime)));
+                long timeDelta = endTime - startTime;
+                long waitTimeNano = Main.getTimeBetweenUpdatesInNano() - timeDelta;
+                waitTimeNano = Math.max(0, waitTimeNano);
+
+                long waitTimeMilli = waitTimeNano / 1000000;
+                long addedWaitTimeNano = waitTimeNano % 1000000;
+
+                Thread.sleep(waitTimeMilli, (int) addedWaitTimeNano);
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

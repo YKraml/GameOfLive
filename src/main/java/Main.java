@@ -7,7 +7,7 @@ import static java.awt.BorderLayout.*;
 public class Main {
 
     private static final int BOARD_SIZE = 100;
-    private static int TIME_BETWEEN_UPDATES = 30;
+    private static long TIME_BETWEEN_UPDATES_IN_NANO = (long) (33.3333333 * 1000 * 1000);
     private static boolean stop = true;
 
     private static int calculatedRounds;
@@ -49,16 +49,17 @@ public class Main {
         fpsSlider.setMinorTickSpacing(5);
         fpsSlider.setPaintTicks(true);
         fpsSlider.setPaintLabels(true);
+        fpsSlider.setSnapToTicks(true);
         fpsSlider.addChangeListener(e -> {
             JSlider source = ((JSlider) e.getSource());
             if (source.getValueIsAdjusting()) {
                 return;
             }
-            int value = source.getValue();
+            double value = source.getValue();
             if (value == 0) {
                 value = 1;
             }
-            Main.setTimeBetweenUpdates(1000 / value);
+            Main.setTimeBetweenUpdatesInNano((long) (1000000000L / value));
         });
 
 
@@ -90,12 +91,8 @@ public class Main {
     }
 
 
-    public static int getSIZE() {
-        return BOARD_SIZE;
-    }
-
-    public static int getTimeBetweenUpdates() {
-        return TIME_BETWEEN_UPDATES;
+    public static long getTimeBetweenUpdatesInNano() {
+        return TIME_BETWEEN_UPDATES_IN_NANO;
     }
 
     public static boolean isStop() {
@@ -118,7 +115,7 @@ public class Main {
         return lastCalculatedRounds;
     }
 
-    public static void setTimeBetweenUpdates(int timeBetweenUpdates) {
-        TIME_BETWEEN_UPDATES = timeBetweenUpdates;
+    public static void setTimeBetweenUpdatesInNano(long timeBetweenUpdatesInNano) {
+        TIME_BETWEEN_UPDATES_IN_NANO = timeBetweenUpdatesInNano;
     }
 }
