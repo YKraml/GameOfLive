@@ -1,6 +1,10 @@
+package model;
+
+import model.Neighborhood;
+
 import java.util.*;
 
-public class GameOfLive {
+public class GameOfLife {
 
     private final Board board;
 
@@ -14,7 +18,7 @@ public class GameOfLive {
     private boolean clearAll;
     private boolean shuffled;
 
-    public GameOfLive(Board board) {
+    public GameOfLife(Board board) {
         this.board = board;
 
         this.needsToBeChecked = Collections.synchronizedSet(new HashSet<>());
@@ -26,7 +30,7 @@ public class GameOfLive {
 
     }
 
-    public void makeRound() {
+    public synchronized void makeRound() {
 
         if(this.clearAll){
             this.needsToBeChecked.clear();
@@ -34,17 +38,21 @@ public class GameOfLive {
             this.needsToBeRevived.clear();
             this.board.clear();
             this.clearAll = false;
+            return;
         }
 
         if(this.shuffled){
             this.board.shuffle();
+            this.needsToBeUpdated.addAll(this.getBoard().getCellsAsCollection());
             this.needsToBeChecked.addAll(this.board.getCellsAsCollection());
             this.shuffled = false;
+            return;
         }
 
         reviveMarkedCells();
         check();
         killAndRevive();
+
     }
 
     private void reviveMarkedCells() {
@@ -97,8 +105,9 @@ public class GameOfLive {
         }
     }
 
-    public void shuffle() {
+    public synchronized void shuffle() {
         this.shuffled = true;
+        this.makeRound();
     }
 
     public void setCellAlive(int cellXPos, int cellYPos) {
@@ -115,8 +124,9 @@ public class GameOfLive {
         return board;
     }
 
-    public void clear() {
+    public synchronized void clear() {
         this.clearAll = true;
+        this.makeRound();
     }
 
     public int getCheckedAmount() {

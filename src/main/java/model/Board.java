@@ -1,9 +1,12 @@
+package model;
+
+import model.Location;
+import model.Neighborhood;
+
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 public class Board {
 

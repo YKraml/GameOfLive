@@ -1,16 +1,18 @@
+package frame;
+
+import model.GameOfLife;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionAdapter;
 
 public class MyMouseMotionListener extends MouseAdapter {
 
     private final DrawPanel drawPanel;
-    private final GameOfLive gameOfLive;
+    private final GameOfLife gameOfLife;
 
-    public MyMouseMotionListener(GameOfLive gameOfLive, DrawPanel drawPanel) {
-        this.gameOfLive = gameOfLive;
+    public MyMouseMotionListener(GameOfLife gameOfLife, DrawPanel drawPanel) {
+        this.gameOfLife = gameOfLife;
         this.drawPanel = drawPanel;
     }
 
@@ -20,9 +22,8 @@ public class MyMouseMotionListener extends MouseAdapter {
 
         Point point = calcCellPosition(e.getX(), e.getY());
 
-        gameOfLive.setCellAlive(point.x, point.y);
+        gameOfLife.setCellAlive(point.x, point.y);
         drawPanel.setMousePos(point);
-        drawPanel.repaint();
     }
 
     @Override
@@ -31,7 +32,6 @@ public class MyMouseMotionListener extends MouseAdapter {
         Point point = calcCellPosition(e.getX(), e.getY());
 
         drawPanel.setMousePos(point);
-        drawPanel.repaint();
     }
 
     @Override
@@ -39,8 +39,7 @@ public class MyMouseMotionListener extends MouseAdapter {
         Point point = calcCellPosition(e.getX(), e.getY());
 
         drawPanel.setMousePos(point);
-        gameOfLive.setCellAlive(point.x, point.y);
-        drawPanel.repaint();
+        gameOfLife.setCellAlive(point.x, point.y);
     }
 
     private Point calcCellPosition(double mouseXPos, double mouseYPos) {
@@ -48,7 +47,7 @@ public class MyMouseMotionListener extends MouseAdapter {
         int panelWidth = drawPanel.getWidth();
         int panelHeight = drawPanel.getHeight();
 
-        int boardSize = this.gameOfLive.getSize();
+        int boardSize = this.gameOfLife.getSize();
 
         double normalisedMouseXPos = mouseXPos / panelWidth;
         double normalisedMouseYPos = mouseYPos / panelHeight;

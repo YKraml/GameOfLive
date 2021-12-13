@@ -1,3 +1,9 @@
+package frame;
+
+import frame.MyMouseMotionListener;
+import model.Cell;
+import model.GameOfLife;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -10,19 +16,19 @@ public class DrawPanel extends JPanel {
     private static final Color MOUSE_COLOR = Color.GREEN;
     private static final int SIZE = 800;
 
-    private GameOfLive gameOfLive;
+    private GameOfLife gameOfLife;
     private int LINE_THICKNESS = 0;
 
     private Point mousePos;
 
-    public DrawPanel(GameOfLive gameOfLive) {
+    public DrawPanel(GameOfLife gameOfLife) {
 
         Dimension dimension = new Dimension();
         dimension.setSize(SIZE, SIZE);
         this.setPreferredSize(dimension);
-        this.gameOfLive = gameOfLive;
+        this.gameOfLife = gameOfLife;
 
-        MouseAdapter mouseAdapter = new MyMouseMotionListener(gameOfLive, this);
+        MouseAdapter mouseAdapter = new MyMouseMotionListener(gameOfLife, this);
         this.addMouseMotionListener(mouseAdapter);
         this.addMouseListener(mouseAdapter);
         this.mousePos = new Point(0, 0);
@@ -34,11 +40,11 @@ public class DrawPanel extends JPanel {
         int w = this.getWidth();
         int h = this.getHeight();
 
-        int xOffset = w / this.gameOfLive.getBoard().getCells()[0].length;
-        int yOffset = h / this.gameOfLive.getBoard().getCells().length;
+        int xOffset = w / this.gameOfLife.getBoard().getCells()[0].length;
+        int yOffset = h / this.gameOfLife.getBoard().getCells().length;
 
         super.paint(g);
-        Cell[][] cells = gameOfLive.getBoard().getCells();
+        Cell[][] cells = gameOfLife.getBoard().getCells();
         for (int i = 0, cellsLength = cells.length; i < cellsLength; i++) {
 
             Cell[] row = cells[i];
@@ -66,11 +72,6 @@ public class DrawPanel extends JPanel {
 
             }
         }
-
-        g.setColor(Color.BLACK);
-        g.drawString("Updates: " +String.valueOf(Main.getLastCalculatedRounds()), 0,10);
-        g.drawString("Checked: " + gameOfLive.getCheckedAmount(), 0,20);
-        g.drawString("Updated: " + gameOfLive.getUpdatedAmount(), 0,30);
     }
 
     public void setMousePos(Point mousePos) {

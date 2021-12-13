@@ -1,20 +1,26 @@
-GameOfLive.java
- GameOfLive
-Location.java
- Location
-MyFrame.java
- MyFrame
-Neighborhood.java
- Neighborhood
-Board.java
- Board
-Cell.java
- Cell
-MyMouseMotionListener.java
- MyMouseMotionListener
-Main.java
- Main
-MyRunnable.java
- MyRunnable
-DrawPanel.java
- DrawPanel
+model/Cell.java
+ model.Cell
+model/Neighborhood.java
+ model.Neighborhood
+model/Board.java
+ model.Board
+frame/MyFrame.java
+ frame.MyFrame
+model/Location.java
+ model.Location
+model/GameOfLife.java
+ model.GameOfLife
+frame/MyMouseMotionListener.java
+ frame.MyMouseMotionListener
+frame/DrawPanel.java
+ frame.DrawPanel
+runnables/DrawFrameRunnable.java
+ runnables.DrawFrameRunnable
+runnables/GameTickRunnable.java
+ runnables.GameTickRunnable
+main/Main.java
+ main.Main
+runnables/MyLoopRunnable.java
+ runnables.MyLoopRunnable
+runnables/StatsUpdateRunnable.java
+ runnables.StatsUpdateRunnable

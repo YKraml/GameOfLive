@@ -1,3 +1,5 @@
+package model;
+
 public enum Location {
 
     TOP_LEFT(0, -1, -1),
