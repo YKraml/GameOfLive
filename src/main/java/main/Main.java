@@ -1,7 +1,9 @@
 package main;
 
+import frame.CenterPanel;
 import frame.DrawPanel;
 import frame.MyFrame;
+import frame.SouthPanel;
 import model.Board;
 import model.GameOfLife;
 import runnables.DrawFrameRunnable;
@@ -24,85 +26,20 @@ public class Main {
     private final static long FPS = 60;
     private static boolean stop = true;
 
-    private static int calculatedRounds;
-    private static int lastCalculatedRounds;
-
-    private static int calculatedFps;
-    private static int lastCalculatedFps;
+    private static Integer calculatedRounds;
+    private static Integer calculatedFps;
 
     public static void main(String[] args) {
 
-        Board board = new Board(BOARD_SIZE);
-        board.shuffle();
-        GameOfLife gameOfLife = new GameOfLife(board);
+        GameOfLife gameOfLife = new GameOfLife(new Board(BOARD_SIZE).shuffle());
 
-        //DraPanel
-        DrawPanel drawPanel = new DrawPanel(gameOfLife);
-
-
-        //StatsPanel
-        JPanel statsPanel = new JPanel();
-        statsPanel.setBorder(BorderFactory.createTitledBorder("Stats"));
-        statsPanel.setLayout(new GridLayout(4, 2));
-        JLabel lastCalculatedRoundsLabel = new JLabel(String.valueOf(Main.getLastCalculatedRounds()));
-        JLabel lastCalculatedFpsLabel = new JLabel(String.valueOf(Main.getLastCalculatedFps()));
-        JLabel updatedAmountLabel = new JLabel(String.valueOf(gameOfLife.getUpdatedAmount()));
-        JLabel checkedAmountLabel = new JLabel(String.valueOf(gameOfLife.getCheckedAmount()));
-        statsPanel.add(new JLabel("Frames per Second: "));
-        statsPanel.add(lastCalculatedFpsLabel);
-        statsPanel.add(new JLabel("Updates per Second: "));
-        statsPanel.add(lastCalculatedRoundsLabel);
-        statsPanel.add(new JLabel("Cell-Updates per Tick: "));
-        statsPanel.add(updatedAmountLabel);
-        statsPanel.add(new JLabel("Cell-Checked per Tick: "));
-        statsPanel.add(checkedAmountLabel);
-
-        //ShuffleButton
-        JButton button = new JButton("Shuffle");
-        button.addActionListener(e -> gameOfLife.shuffle());
-
-        //StopButton
-        JButton stopButton = new JButton("Start | Stop");
-        stopButton.addActionListener(e -> Main.setStop(!Main.isStop()));
-
-        //ClearButton
-        JButton clearButton = new JButton("Clear");
-        clearButton.addActionListener(e -> gameOfLife.clear());
-
-        //FpsSlider
-        JSlider fpsSlider = new JSlider(0, 150, 30);
-        fpsSlider.setMajorTickSpacing(30);
-        fpsSlider.setMinorTickSpacing(5);
-        fpsSlider.setPaintTicks(true);
-        fpsSlider.setPaintLabels(true);
-        fpsSlider.setSnapToTicks(true);
-        fpsSlider.addChangeListener(e -> {
-            JSlider source = ((JSlider) e.getSource());
-            if (source.getValueIsAdjusting()) {
-                return;
-            }
-            double value = source.getValue();
-            if (value == 0) {
-                value = 1;
-            }
-            Main.setTimeBetweenUpdatesInNano((long) (1000000000L / value));
-        });
-
+        //Southpanel
+        SouthPanel southPanel = new SouthPanel(gameOfLife);
+        southPanel.init();
 
         //CenterPanel
-        JPanel centerPanel = new JPanel();
-        centerPanel.setBorder(BorderFactory.createTitledBorder("Center"));
-        centerPanel.add(drawPanel);
-
-        //SouthPanel
-        JPanel southPanel = new JPanel();
-        southPanel.setBorder(BorderFactory.createTitledBorder("South"));
-        southPanel.add(statsPanel);
-        southPanel.add(button);
-        southPanel.add(stopButton);
-        southPanel.add(clearButton);
-        southPanel.add(fpsSlider);
-
+        CenterPanel centerPanel = new CenterPanel(gameOfLife);
+        centerPanel.init();
 
         MyFrame myFrame = new MyFrame();
         myFrame.setLayout(new BorderLayout());
@@ -113,15 +50,12 @@ public class Main {
 
 
         List<JComponent> componentsToDraw = new ArrayList<>();
-        componentsToDraw.add(checkedAmountLabel);
-        componentsToDraw.add(updatedAmountLabel);
-        componentsToDraw.add(lastCalculatedRoundsLabel);
-        componentsToDraw.add(drawPanel);
-        componentsToDraw.add(lastCalculatedFpsLabel);
+        componentsToDraw.addAll(centerPanel.getComponentsToDraw());
+        componentsToDraw.addAll(southPanel.getComponentsToDraw());
 
         new Thread(new GameTickRunnable(gameOfLife)).start();
         new Thread(new DrawFrameRunnable(componentsToDraw, FPS)).start();
-        new Thread(new StatsUpdateRunnable(lastCalculatedRoundsLabel, updatedAmountLabel, checkedAmountLabel, lastCalculatedFpsLabel, gameOfLife)).start();
+
 
     }
 
@@ -142,35 +76,20 @@ public class Main {
         Main.stop = stop;
     }
 
-    public static int getCalculatedRounds() {
+    public static Integer getCalculatedRounds() {
         return calculatedRounds;
     }
 
-    public static void setCalculatedRounds(int calculatedRounds) {
+    public static void setCalculatedRounds(Integer calculatedRounds) {
         Main.calculatedRounds = calculatedRounds;
     }
 
-    public static int getLastCalculatedRounds() {
-        return lastCalculatedRounds;
-    }
-
-    public static void setLastCalculatedRounds(int lastCalculatedRounds) {
-        Main.lastCalculatedRounds = lastCalculatedRounds;
-    }
-
-    public static int getCalculatedFps() {
+    public static Integer getCalculatedFps() {
         return calculatedFps;
     }
 
-    public static void setCalculatedFps(int calculatedFps) {
+    public static void setCalculatedFps(Integer calculatedFps) {
         Main.calculatedFps = calculatedFps;
     }
 
-    public static int getLastCalculatedFps() {
-        return lastCalculatedFps;
-    }
-
-    public static void setLastCalculatedFps(int lastCalculatedFps) {
-        Main.lastCalculatedFps = lastCalculatedFps;
-    }
 }

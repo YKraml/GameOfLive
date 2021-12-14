@@ -1,26 +1,32 @@
-model/Cell.java
- model.Cell
 model/Neighborhood.java
  model.Neighborhood
 model/Board.java
  model.Board
-frame/MyFrame.java
- frame.MyFrame
 model/Location.java
  model.Location
 model/GameOfLife.java
  model.GameOfLife
 frame/MyMouseMotionListener.java
  frame.MyMouseMotionListener
-frame/DrawPanel.java
- frame.DrawPanel
-runnables/DrawFrameRunnable.java
- runnables.DrawFrameRunnable
-runnables/GameTickRunnable.java
- runnables.GameTickRunnable
-main/Main.java
- main.Main
+model/Cell.java
+ model.Cell
+frame/MyFrame.java
+ frame.MyFrame
 runnables/MyLoopRunnable.java
  runnables.MyLoopRunnable
+frame/DrawPanel.java
+ frame.DrawPanel
+frame/MyPanel.java
+ frame.MyPanel
+frame/CenterPanel.java
+ frame.CenterPanel
 runnables/StatsUpdateRunnable.java
  runnables.StatsUpdateRunnable
+runnables/GameTickRunnable.java
+ runnables.GameTickRunnable
+frame/SouthPanel.java
+ frame.SouthPanel
+runnables/DrawFrameRunnable.java
+ runnables.DrawFrameRunnable
+main/Main.java
+ main.Main

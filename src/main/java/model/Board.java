@@ -30,7 +30,7 @@ public class Board {
         return cells;
     }
 
-    public void shuffle() {
+    public Board shuffle() {
         for (Cell[] row : this.cells) {
             for (Cell cell : row) {
                 if (Math.random() >= SHUFFLE_CONSTANT) {
@@ -41,6 +41,7 @@ public class Board {
                 cell.update();
             }
         }
+        return this;
     }
 
     public Neighborhood getNeighborsFromCell(Cell cell) {

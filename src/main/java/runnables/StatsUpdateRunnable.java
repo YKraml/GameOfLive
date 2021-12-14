@@ -31,14 +31,12 @@ public class StatsUpdateRunnable extends MyLoopRunnable {
     @Override
     protected void toToInLoop() {
 
-        lastCalculatedRoundsLabel.setText(String.valueOf(Main.getLastCalculatedRounds()));
+        lastCalculatedRoundsLabel.setText(String.valueOf(Main.getCalculatedRounds()));
         updatedAmountLabel.setText(String.valueOf(gameOfLife.getUpdatedAmount()));
         checkedAmountLabel.setText(String.valueOf(gameOfLife.getCheckedAmount()));
-        lastCalculatedFpsLabel.setText(String.valueOf(Main.getLastCalculatedFps()));
+        lastCalculatedFpsLabel.setText(String.valueOf(Main.getCalculatedFps()));
 
-        Main.setLastCalculatedRounds(Main.getCalculatedRounds());
         Main.setCalculatedRounds(0);
-        Main.setLastCalculatedFps(Main.getCalculatedFps());
         Main.setCalculatedFps(0);
     }
 }
