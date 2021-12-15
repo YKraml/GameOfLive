@@ -1,19 +1,19 @@
 model/Board.java
  model.Board
-frame/MainPanel.java
- frame.MainPanel
-runnables/MyLoopRunnable.java
- runnables.MyLoopRunnable
-main/Pattern.java
- main.Pattern
+frame/MainFrame.java
+ frame.MainFrame
 model/Neighborhood.java
  model.Neighborhood
+runnables/MyLoopRunnable.java
+ runnables.MyLoopRunnable
 model/GameOfLife.java
  model.GameOfLife
 model/Location.java
  model.Location
-frame/MainFrame.java
- frame.MainFrame
+main/Formation.java
+ main.Formation
+frame/CenterPanel.java
+ frame.CenterPanel
 model/Cell.java
  model.Cell
 runnables/UpdateLabelsRunnable.java
@@ -22,8 +22,8 @@ frame/MyPanel.java
  frame.MyPanel
 main/IntWrapper.java
  main.IntWrapper
-frame/CenterPanel.java
- frame.CenterPanel
+frame/MainPanel.java
+ frame.MainPanel
 runnables/DrawComponentsRunnable.java
  runnables.DrawComponentsRunnable
 frame/SouthPanel.java

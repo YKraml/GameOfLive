@@ -1,7 +1,7 @@
 package frame;
 
 import main.Main;
-import main.Pattern;
+import main.Formation;
 import model.Board;
 import model.Cell;
 import model.GameOfLife;
@@ -9,6 +9,8 @@ import model.GameOfLife;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -33,20 +35,21 @@ public class EastPanel extends MyPanel {
         JScrollPane scrollPane = new JScrollPane(structuresPane);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(40);
         this.add(scrollPane, BorderLayout.CENTER);
         Dimension dimension = new Dimension();
         dimension.setSize(250, 600);
         scrollPane.setPreferredSize(dimension);
 
-        for (Pattern patter : Pattern.values()) {
-            extracted(patter.name(), structuresPane, patter.getPattern());
+        for (Formation patter : Formation.getValues()) {
+            extracted(patter, structuresPane);
         }
 
 
     }
 
-    private void extracted(String title, JPanel structuresPane, String a1) {
-        String[] rows = a1.replace("\t", "").split("\n");
+    private void extracted(Formation formation, JPanel structuresPane) {
+        String[] rows = formation.getFormation().replace("\t", "").split("\n");
 
         Cell[][] cells = new Cell[rows.length][rows[0].length()];
 
@@ -66,9 +69,13 @@ public class EastPanel extends MyPanel {
 
 
         JPanel panel = new JPanel();
-        panel.setBorder(new TitledBorder(title));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(new TitledBorder(formation.getName()));
         panel.add(drawPanel);
         structuresPane.add(panel);
+        JButton infoButton = new JButton("Info");
+        infoButton.addActionListener(e -> JOptionPane.showMessageDialog(this, formation.getDescription()));
+        panel.add(infoButton);
         this.addInnerMyPanel(drawPanel);
 
         panel.addMouseListener(new MouseListener() {

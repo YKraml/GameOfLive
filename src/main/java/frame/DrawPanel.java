@@ -18,7 +18,7 @@ public class DrawPanel extends MyPanel {
     private final int height;
 
     private final Board board;
-    private final int LINE_THICKNESS = 0;
+    private final int LINE_THICKNESS = 1;
     private Point mousePos;
     private final boolean showMousePos;
 
