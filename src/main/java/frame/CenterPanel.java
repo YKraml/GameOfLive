@@ -3,6 +3,7 @@ package frame;
 import model.GameOfLife;
 
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
 
 public class CenterPanel extends MyPanel {
 
@@ -12,11 +13,17 @@ public class CenterPanel extends MyPanel {
         this.gameOfLife = gameOfLife;
     }
 
-    public void init(){
 
-        DrawPanel drawPanel = new DrawPanel(this.gameOfLife);
+    public void init() {
+        DrawPanel drawPanel = new DrawPanel(this.gameOfLife.getBoard(), 800, 800, true);
+
+        MouseAdapter mouseAdapter = new MyMouseMotionListener(gameOfLife, drawPanel);
+        drawPanel.addMouseMotionListener(mouseAdapter);
+        drawPanel.addMouseListener(mouseAdapter);
+
         this.setBorder(BorderFactory.createTitledBorder("Center"));
         this.add(drawPanel);
-        this.componentsToDraw.add(drawPanel);
+        this.addComponentToDraw(drawPanel);
+        this.addInnerMyPanel(drawPanel);
     }
 }

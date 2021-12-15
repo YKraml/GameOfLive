@@ -1,8 +1,5 @@
 package model;
 
-import model.Location;
-import model.Neighborhood;
-
 import java.awt.*;
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,11 +8,15 @@ import java.util.HashSet;
 public class Board {
 
     private static final double SHUFFLE_CONSTANT = 0.8;
-    private final Cell[][] cells;
+    private Cell[][] cells;
 
     public Board(int size) {
         this.cells = new Cell[size][size];
         initCells();
+    }
+
+    public Board(Cell[][] cells) {
+        this.cells = cells;
     }
 
     private void initCells() {
@@ -52,14 +53,18 @@ public class Board {
         Location[] values = Location.values();
         for (Location location : values) {
 
-            int xPosNeighbor = calcNormalisedPosition(point.x, this.getWidth(), location.getxOffset());
-            int yPosNeighbor = calcNormalisedPosition(point.y, this.getHeight(), location.getyOffset());
+            int xPosNeighbor;
+            int yPosNeighbor;
+
+            xPosNeighbor = calcNormalisedPosition(point.x, this.getWidth(), location.getxOffset());
+            yPosNeighbor = calcNormalisedPosition(point.y, this.getHeight(), location.getyOffset());
 
             neighbors[location.getLocationInArray()] = this.cells[xPosNeighbor][yPosNeighbor];
 
         }
 
         return new Neighborhood(cell, neighbors);
+
     }
 
     private Point getPositionOfCell(Cell targetCell) {
@@ -80,11 +85,11 @@ public class Board {
     }
 
     public int getHeight() {
-        return this.cells.length;
+        return this.cells[0].length;
     }
 
     public int getWidth() {
-        return this.cells[0].length;
+        return this.cells.length;
     }
 
     public Collection<? extends Cell> getCellsAsCollection() {
@@ -111,5 +116,9 @@ public class Board {
 
     public Cell getCellAt(int cellXPos, int cellYPos) {
         return this.cells[cellXPos][cellYPos];
+    }
+
+    public void setCells(Cell[][] cells) {
+        this.cells = cells;
     }
 }

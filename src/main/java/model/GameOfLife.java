@@ -1,19 +1,20 @@
 package model;
 
+import main.IntWrapper;
 import model.Neighborhood;
 
 import java.util.*;
 
 public class GameOfLife {
 
-    private final Board board;
+    private Board board;
 
     private final Set<Cell> needsToBeChecked;
     private final Set<Cell> needsToBeUpdated;
     private final Set<Cell> needsToBeRevived;
 
-    private int checkedAmount;
-    private int updatedAmount;
+    private final IntWrapper checkedAmount;
+    private final IntWrapper updatedAmount;
 
     private boolean clearAll;
     private boolean shuffled;
@@ -27,6 +28,9 @@ public class GameOfLife {
         this.needsToBeUpdated.addAll(board.getCellsAsCollection());
 
         this.needsToBeRevived = Collections.synchronizedSet(new HashSet<>());
+
+        checkedAmount = new IntWrapper();
+        updatedAmount = new IntWrapper();
 
     }
 
@@ -69,7 +73,7 @@ public class GameOfLife {
 
     private void killAndRevive() {
         this.needsToBeUpdated.parallelStream().forEach(this::killAndReviveCell);
-        this.updatedAmount = this.needsToBeUpdated.size();
+        this.updatedAmount.setNumber(this.needsToBeUpdated.size());
         this.needsToBeUpdated.clear();
     }
 
@@ -83,7 +87,7 @@ public class GameOfLife {
 
     private void check() {
         this.needsToBeChecked.parallelStream().forEach(this::checkCell);
-        this.checkedAmount = this.needsToBeChecked.size();
+        this.checkedAmount.setNumber(this.needsToBeChecked.size());
         this.needsToBeChecked.clear();
     }
 
@@ -116,8 +120,12 @@ public class GameOfLife {
         this.needsToBeRevived.add(cell);
     }
 
-    public int getSize() {
+    public int getWidth() {
         return this.board.getWidth();
+    }
+
+    public int getHeight() {
+        return this.board.getHeight();
     }
 
     public Board getBoard() {
@@ -129,11 +137,20 @@ public class GameOfLife {
         this.makeRound();
     }
 
-    public int getCheckedAmount() {
+    public IntWrapper getCheckedAmount() {
         return checkedAmount;
     }
 
-    public int getUpdatedAmount() {
+    public IntWrapper getUpdatedAmount() {
         return updatedAmount;
+    }
+
+    public void setBoard(Cell[][]  cells) {
+        this.board.setCells(cells);
+        this.needsToBeUpdated.clear();
+        this.needsToBeChecked.clear();
+        this.needsToBeRevived.clear();
+        this.needsToBeUpdated.addAll(board.getCellsAsCollection());
+        this.needsToBeChecked.addAll(board.getCellsAsCollection());
     }
 }

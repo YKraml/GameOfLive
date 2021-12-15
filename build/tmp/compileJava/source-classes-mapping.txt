@@ -1,32 +1,41 @@
-model/Neighborhood.java
- model.Neighborhood
 model/Board.java
  model.Board
-model/Location.java
- model.Location
-model/GameOfLife.java
- model.GameOfLife
-frame/MyMouseMotionListener.java
- frame.MyMouseMotionListener
-model/Cell.java
- model.Cell
-frame/MyFrame.java
- frame.MyFrame
+frame/MainPanel.java
+ frame.MainPanel
 runnables/MyLoopRunnable.java
  runnables.MyLoopRunnable
-frame/DrawPanel.java
- frame.DrawPanel
+main/Pattern.java
+ main.Pattern
+model/Neighborhood.java
+ model.Neighborhood
+model/GameOfLife.java
+ model.GameOfLife
+model/Location.java
+ model.Location
+frame/MainFrame.java
+ frame.MainFrame
+model/Cell.java
+ model.Cell
+runnables/UpdateLabelsRunnable.java
+ runnables.UpdateLabelsRunnable
 frame/MyPanel.java
  frame.MyPanel
+main/IntWrapper.java
+ main.IntWrapper
 frame/CenterPanel.java
  frame.CenterPanel
-runnables/StatsUpdateRunnable.java
- runnables.StatsUpdateRunnable
-runnables/GameTickRunnable.java
- runnables.GameTickRunnable
+runnables/DrawComponentsRunnable.java
+ runnables.DrawComponentsRunnable
 frame/SouthPanel.java
  frame.SouthPanel
-runnables/DrawFrameRunnable.java
- runnables.DrawFrameRunnable
 main/Main.java
  main.Main
+frame/EastPanel.java
+ frame.EastPanel
+ frame.EastPanel$1
+frame/DrawPanel.java
+ frame.DrawPanel
+frame/MyMouseMotionListener.java
+ frame.MyMouseMotionListener
+runnables/MakeRoundRunnable.java
+ runnables.MakeRoundRunnable

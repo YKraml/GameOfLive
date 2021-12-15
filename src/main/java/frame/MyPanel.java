@@ -1,19 +1,50 @@
 package frame;
 
+import main.IntWrapper;
+
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
-public abstract class MyPanel extends JPanel{
+public abstract class MyPanel extends JPanel {
 
-    protected List<JComponent> componentsToDraw;
+    private final Collection<MyPanel> innerMyPanels;
+    private final Collection<JComponent> componentsToDraw;
+    private final Map<JLabel, IntWrapper> labelCouples;
 
-    public MyPanel(){
-        componentsToDraw = Collections.synchronizedList(new ArrayList<>());
+    public MyPanel() {
+        this.innerMyPanels = Collections.synchronizedSet(new HashSet<>());
+        this.componentsToDraw = Collections.synchronizedSet(new HashSet<>());
+        this.labelCouples = Collections.synchronizedMap(new HashMap<>());
     }
 
-    public List<JComponent> getComponentsToDraw() {
-        return Collections.unmodifiableList(componentsToDraw);
+    public final Collection<JComponent> getComponentsToDraw() {
+        this.innerMyPanels.forEach(myPanel -> componentsToDraw.addAll(myPanel.getComponentsToDraw()));
+        return Collections.unmodifiableCollection(componentsToDraw);
     }
+
+    public final Map<JLabel, IntWrapper> getLabelCouples() {
+        this.innerMyPanels.forEach(myPanel -> labelCouples.putAll(myPanel.getLabelCouples()));
+        return Collections.unmodifiableMap(labelCouples);
+    }
+
+    public final void initAll() {
+        this.init();
+        this.innerMyPanels.forEach(MyPanel::initAll);
+    }
+
+    protected abstract void init();
+
+    protected final void addInnerMyPanel(MyPanel myPanel) {
+        this.innerMyPanels.add(myPanel);
+    }
+
+    protected final void addComponentToDraw(JComponent jComponent) {
+        this.componentsToDraw.add(jComponent);
+    }
+
+    protected final void addLabelCouple(JLabel jLabel, IntWrapper intWrapper) {
+        this.labelCouples.put(jLabel, intWrapper);
+    }
+
+
 }

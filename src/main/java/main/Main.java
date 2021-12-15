@@ -1,61 +1,41 @@
 package main;
 
-import frame.CenterPanel;
-import frame.DrawPanel;
-import frame.MyFrame;
-import frame.SouthPanel;
+import frame.MainFrame;
+import frame.MainPanel;
 import model.Board;
 import model.GameOfLife;
-import runnables.DrawFrameRunnable;
-import runnables.GameTickRunnable;
-import runnables.StatsUpdateRunnable;
-
-import javax.swing.*;
-import javax.swing.Timer;
-import java.awt.*;
-import java.util.*;
-import java.util.List;
-
-import static java.awt.BorderLayout.CENTER;
-import static java.awt.BorderLayout.SOUTH;
+import runnables.DrawComponentsRunnable;
+import runnables.MakeRoundRunnable;
+import runnables.UpdateLabelsRunnable;
 
 public class Main {
 
-    private static final int BOARD_SIZE = 100;
+    private static final int BOARD_SIZE = 200;
     private static long TIME_BETWEEN_UPDATES_IN_NANO = (long) (33.3333333 * 1000 * 1000);
     private final static long FPS = 60;
     private static boolean stop = true;
 
-    private static Integer calculatedRounds;
-    private static Integer calculatedFps;
+    private static final IntWrapper calculatedRounds = new IntWrapper();
+    private static final IntWrapper calculatedFps = new IntWrapper();
+
+    private static Board currentlyChosenPattern;
 
     public static void main(String[] args) {
 
         GameOfLife gameOfLife = new GameOfLife(new Board(BOARD_SIZE).shuffle());
 
-        //Southpanel
-        SouthPanel southPanel = new SouthPanel(gameOfLife);
-        southPanel.init();
+        MainPanel mainPanel = new MainPanel(gameOfLife);
+        mainPanel.initAll();
 
-        //CenterPanel
-        CenterPanel centerPanel = new CenterPanel(gameOfLife);
-        centerPanel.init();
-
-        MyFrame myFrame = new MyFrame();
-        myFrame.setLayout(new BorderLayout());
-        myFrame.add(southPanel, SOUTH);
-        myFrame.add(centerPanel, CENTER);
-        myFrame.pack();
+        MainFrame myFrame = new MainFrame();
         myFrame.setVisible();
+        myFrame.add(mainPanel);
+        myFrame.pack();
 
 
-        List<JComponent> componentsToDraw = new ArrayList<>();
-        componentsToDraw.addAll(centerPanel.getComponentsToDraw());
-        componentsToDraw.addAll(southPanel.getComponentsToDraw());
-
-        new Thread(new GameTickRunnable(gameOfLife)).start();
-        new Thread(new DrawFrameRunnable(componentsToDraw, FPS)).start();
-
+        new Thread(new MakeRoundRunnable(gameOfLife)).start();
+        new Thread(new DrawComponentsRunnable(mainPanel.getComponentsToDraw(), FPS)).start();
+        new Thread(new UpdateLabelsRunnable(mainPanel.getLabelCouples())).start();
 
     }
 
@@ -76,20 +56,20 @@ public class Main {
         Main.stop = stop;
     }
 
-    public static Integer getCalculatedRounds() {
-        return calculatedRounds;
-    }
 
-    public static void setCalculatedRounds(Integer calculatedRounds) {
-        Main.calculatedRounds = calculatedRounds;
-    }
-
-    public static Integer getCalculatedFps() {
+    public static IntWrapper getCalculatedFps() {
         return calculatedFps;
     }
 
-    public static void setCalculatedFps(Integer calculatedFps) {
-        Main.calculatedFps = calculatedFps;
+    public static IntWrapper getCalculatedRounds() {
+        return calculatedRounds;
     }
 
+    public static void setCurrentlyChosenPattern(Board currentlyChosenPattern) {
+        Main.currentlyChosenPattern = currentlyChosenPattern;
+    }
+
+    public static Board getCurrentlyChosenPattern() {
+        return currentlyChosenPattern;
+    }
 }

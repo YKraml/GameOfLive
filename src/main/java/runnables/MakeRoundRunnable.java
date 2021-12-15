@@ -5,11 +5,11 @@ import model.GameOfLife;
 import runnables.MyLoopRunnable;
 
 
-public class GameTickRunnable extends MyLoopRunnable {
+public class MakeRoundRunnable extends MyLoopRunnable {
 
     private final GameOfLife gameOfLife;
 
-    public GameTickRunnable(GameOfLife gameOfLife) {
+    public MakeRoundRunnable(GameOfLife gameOfLife) {
         this.gameOfLife = gameOfLife;
     }
 
@@ -20,7 +20,7 @@ public class GameTickRunnable extends MyLoopRunnable {
 
     @Override
     protected void toToInLoop() {
-        Main.setCalculatedRounds(Main.getCalculatedRounds() + 1);
+        Main.getCalculatedRounds().addNumber(1);
         if (!Main.isStop()) {
             gameOfLife.makeRound();
         }

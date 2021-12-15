@@ -3,7 +3,7 @@ package frame;
 import javax.swing.*;
 import java.awt.*;
 
-public class MyFrame extends JFrame {
+public class MainFrame extends JFrame {
 
     private static final String TITLE = "Game Of Live";
     private static final int FRAME_WIDTH = 1000;
@@ -12,7 +12,7 @@ public class MyFrame extends JFrame {
     private static final Component LOCATION_RELATIVE_TO = null;
     private static final boolean ALWAYS_ON_TOP = false;
 
-    public MyFrame() {
+    public MainFrame() {
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle(TITLE);

@@ -6,6 +6,12 @@ public class Cell {
     private boolean willBeKilled;
     private boolean willBeBorn;
 
+    public Cell() {
+        isALive = false;
+        willBeBorn = false;
+        willBeKilled = false;
+    }
+
     public boolean isALive() {
         return isALive;
     }
@@ -36,5 +42,15 @@ public class Cell {
         this.willBeKilled = false;
 
         return changed;
+    }
+
+
+    @Override
+    public String toString() {
+        if(this.isALive){
+            return "*";
+        }else {
+            return ".";
+        }
     }
 }
