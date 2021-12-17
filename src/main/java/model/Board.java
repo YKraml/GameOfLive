@@ -111,7 +111,11 @@ public class Board {
     }
 
     public void setCellAlive(int cellXPos, int cellYPos) {
-        this.cells[cellXPos][cellYPos].markToBeBorn().update();
+        try {
+            this.cells[cellXPos][cellYPos].markToBeBorn().update();
+        } catch (IndexOutOfBoundsException e) {
+
+        }
     }
 
     public Cell getCellAt(int cellXPos, int cellYPos) {

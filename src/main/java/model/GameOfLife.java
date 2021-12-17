@@ -1,11 +1,10 @@
 package model;
 
 import main.IntWrapper;
-import model.Neighborhood;
 
 import java.util.*;
 
-public class GameOfLife {
+public class GameOfLife extends AbstractGameOfLife {
 
     private Board board;
 
@@ -36,7 +35,7 @@ public class GameOfLife {
 
     public synchronized void makeRound() {
 
-        if(this.clearAll){
+        if (this.clearAll) {
             this.needsToBeChecked.clear();
             this.needsToBeUpdated.clear();
             this.needsToBeRevived.clear();
@@ -45,7 +44,7 @@ public class GameOfLife {
             return;
         }
 
-        if(this.shuffled){
+        if (this.shuffled) {
             this.board.shuffle();
             this.needsToBeUpdated.addAll(this.getBoard().getCellsAsCollection());
             this.needsToBeChecked.addAll(this.board.getCellsAsCollection());
@@ -132,6 +131,21 @@ public class GameOfLife {
         return board;
     }
 
+    @Override
+    public Collection<MyPoint> getAlivePoints() {
+        Collection<MyPoint> collection = new HashSet<>();
+
+        for (int i = 0; i < this.board.getWidth(); i++) {
+            for (int j = 0; j < this.board.getHeight(); j++) {
+                if (board.getCellAt(i, j).isALive()) {
+                    collection.add(new MyPoint(i, j));
+                }
+            }
+        }
+
+        return collection;
+    }
+
     public synchronized void clear() {
         this.clearAll = true;
         this.makeRound();
@@ -145,12 +159,4 @@ public class GameOfLife {
         return updatedAmount;
     }
 
-    public void setBoard(Cell[][]  cells) {
-        this.board.setCells(cells);
-        this.needsToBeUpdated.clear();
-        this.needsToBeChecked.clear();
-        this.needsToBeRevived.clear();
-        this.needsToBeUpdated.addAll(board.getCellsAsCollection());
-        this.needsToBeChecked.addAll(board.getCellsAsCollection());
-    }
 }

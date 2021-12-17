@@ -1,15 +1,14 @@
 package runnables;
 
 import main.Main;
-import model.GameOfLife;
-import runnables.MyLoopRunnable;
+import model.AbstractGameOfLife;
 
 
 public class MakeRoundRunnable extends MyLoopRunnable {
 
-    private final GameOfLife gameOfLife;
+    private final AbstractGameOfLife gameOfLife;
 
-    public MakeRoundRunnable(GameOfLife gameOfLife) {
+    public MakeRoundRunnable(AbstractGameOfLife gameOfLife) {
         this.gameOfLife = gameOfLife;
     }
 

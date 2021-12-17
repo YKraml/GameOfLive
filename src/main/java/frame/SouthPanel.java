@@ -1,7 +1,7 @@
 package frame;
 
 import main.Main;
-import model.GameOfLife;
+import model.AbstractGameOfLife;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,10 +11,10 @@ import java.util.List;
 
 public class SouthPanel extends MyPanel {
 
-    private final GameOfLife gameOfLife;
+    private final AbstractGameOfLife gameOfLife;
     private final List<JComponent> componentsToDraw;
 
-    public SouthPanel(GameOfLife gameOfLife){
+    public SouthPanel(AbstractGameOfLife gameOfLife){
         this.componentsToDraw = Collections.synchronizedList(new ArrayList<>());
         this.gameOfLife = gameOfLife;
     }
@@ -71,7 +71,7 @@ public class SouthPanel extends MyPanel {
 
 
         //SouthPanel
-        this.setBorder(BorderFactory.createTitledBorder("South"));
+        this.setBorder(BorderFactory.createTitledBorder("More"));
         this.add(statsPanel);
         this.add(button);
         this.add(stopButton);

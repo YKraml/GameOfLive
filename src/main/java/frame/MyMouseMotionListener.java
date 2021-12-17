@@ -1,9 +1,9 @@
 package frame;
 
 import main.Main;
+import model.AbstractGameOfLife;
 import model.Board;
 import model.Cell;
-import model.GameOfLife;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -12,9 +12,9 @@ import java.awt.event.MouseEvent;
 public class MyMouseMotionListener extends MouseAdapter {
 
     private final DrawPanel drawPanel;
-    private final GameOfLife gameOfLife;
+    private final AbstractGameOfLife gameOfLife;
 
-    public MyMouseMotionListener(GameOfLife gameOfLife, DrawPanel drawPanel) {
+    public MyMouseMotionListener(AbstractGameOfLife gameOfLife, DrawPanel drawPanel) {
         this.gameOfLife = gameOfLife;
         this.drawPanel = drawPanel;
     }

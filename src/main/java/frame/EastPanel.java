@@ -1,24 +1,21 @@
 package frame;
 
 import main.Main;
-import main.Formation;
+import model.AbstractGameOfLife;
+import model.Formation;
 import model.Board;
-import model.Cell;
-import model.GameOfLife;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class EastPanel extends MyPanel {
 
-    private final GameOfLife gameOfLife;
+    private final AbstractGameOfLife gameOfLife;
 
-    public EastPanel(GameOfLife gameOfLife) {
+    public EastPanel(AbstractGameOfLife gameOfLife) {
         this.gameOfLife = gameOfLife;
     }
 
@@ -36,49 +33,33 @@ public class EastPanel extends MyPanel {
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.getVerticalScrollBar().setUnitIncrement(40);
+
         this.add(scrollPane, BorderLayout.CENTER);
+
         Dimension dimension = new Dimension();
-        dimension.setSize(250, 600);
+        dimension.setSize(250, 100);
         scrollPane.setPreferredSize(dimension);
 
-        for (Formation patter : Formation.getValues()) {
-            extracted(patter, structuresPane);
-        }
-
+        Formation.getValues().forEach(formation -> structuresPane.add(this.createFormationPanel(formation)));
 
     }
 
-    private void extracted(Formation formation, JPanel structuresPane) {
-        String[] rows = formation.getFormation().replace("\t", "").split("\n");
+    private JPanel createFormationPanel(Formation formation) {
 
-        Cell[][] cells = new Cell[rows.length][rows[0].length()];
+        Board board = formation.getBoardFromFormation();
 
-        for (int i = 0; i < cells.length; i++) {
-            for (int j = 0; j < cells[i].length; j++) {
-                char character = rows[i].toCharArray()[j];
-                Cell cell = new Cell();
-                cells[i][j] = cell;
-                if (character == '*') {
-                    cell.markToBeBorn().update();
-                }
-            }
-        }
+        LittleDrawPanel littleDrawPanel = new LittleDrawPanel(board, 200);
 
-        Board board = new Board(cells);
-        DrawPanel drawPanel = new DrawPanel(board, 200, false);
-
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(new TitledBorder(formation.getName()));
-        panel.add(drawPanel);
-        structuresPane.add(panel);
         JButton infoButton = new JButton("Info");
         infoButton.addActionListener(e -> JOptionPane.showMessageDialog(this, formation.getDescription()));
-        panel.add(infoButton);
-        this.addInnerMyPanel(drawPanel);
 
-        panel.addMouseListener(new MouseListener() {
+        JPanel formationPanel = new JPanel();
+        formationPanel.setLayout(new BoxLayout(formationPanel, BoxLayout.Y_AXIS));
+        formationPanel.setBorder(new TitledBorder(formation.getName()));
+        formationPanel.add(littleDrawPanel);
+        formationPanel.add(infoButton);
+
+        formationPanel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 Main.setCurrentlyChosenPattern(board);
@@ -103,6 +84,9 @@ public class EastPanel extends MyPanel {
 
             }
         });
+
+        return formationPanel;
     }
+
 
 }

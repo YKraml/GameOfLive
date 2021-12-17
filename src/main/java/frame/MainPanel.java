@@ -1,6 +1,6 @@
 package frame;
 
-import model.GameOfLife;
+import model.AbstractGameOfLife;
 
 import java.awt.*;
 
@@ -8,9 +8,9 @@ import static java.awt.BorderLayout.*;
 
 public class MainPanel extends MyPanel{
 
-    private final GameOfLife gameOfLife;
+    private final AbstractGameOfLife gameOfLife;
 
-    public MainPanel(GameOfLife gameOfLife) {
+    public MainPanel(AbstractGameOfLife gameOfLife) {
         this.gameOfLife = gameOfLife;
     }
 
