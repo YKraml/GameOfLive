@@ -14,16 +14,14 @@ public class LittleDrawPanel extends JPanel {
     private static final int LINE_THICKNESS = 1;
 
     private final Board board;
-    private final int width;
-    private final int height;
 
     public LittleDrawPanel(Board board, int width) {
         this.board = board;
-        this.width = width;
-        this.height = this.width / board.getWidth() * board.getHeight();
+        int height = width / board.getWidth() * board.getHeight();
         Dimension dimension = new Dimension();
         dimension.setSize(width, height);
         this.setPreferredSize(dimension);
+        this.setSize(dimension);
     }
 
     @Override
@@ -54,5 +52,8 @@ public class LittleDrawPanel extends JPanel {
                 g.fillRect(2 * LINE_THICKNESS + pixelX - LINE_THICKNESS, 2 * LINE_THICKNESS + pixelY - LINE_THICKNESS, xOffset - LINE_THICKNESS, yOffset - LINE_THICKNESS);
             }
         }
+
+        g.setColor(BACKGROUND_COLOR);
+        g.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
     }
 }

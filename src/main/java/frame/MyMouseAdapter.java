@@ -130,17 +130,13 @@ public class MyMouseAdapter extends MouseAdapter {
 
         int rotation = e.getWheelRotation();
         if (rotation > 0) {
-            drawPanel.setZoomX(drawPanel.getZoomX() * 1.1);
-            drawPanel.setZoomY(drawPanel.getZoomY() * 1.1);
+            drawPanel.setZoomX(drawPanel.getZoomX() * 1.05);
+            drawPanel.setZoomY(drawPanel.getZoomY() * 1.05);
         } else if (rotation < 0) {
-            drawPanel.setZoomX(drawPanel.getZoomX() * 0.9);
-            drawPanel.setZoomY(drawPanel.getZoomY() * 0.9);
+            drawPanel.setZoomX(drawPanel.getZoomX() * 0.95);
+            drawPanel.setZoomY(drawPanel.getZoomY() * 0.95);
         }
         MyPoint mousePosAfter = this.calcScreenToWorld(e.getPoint());
-
-        if (mousePosBefore.getX() != mousePosAfter.getX()) {
-            System.out.println(mousePosBefore.getX() + "| " + mousePosAfter.getX());
-        }
 
         double xVector = mousePosBefore.getX() - mousePosAfter.getX();
         double yVector = mousePosBefore.getY() - mousePosAfter.getY();

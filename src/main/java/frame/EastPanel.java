@@ -8,15 +8,24 @@ import model.Board;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
+import java.text.Normalizer;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class EastPanel extends MyPanel {
 
     private final AbstractGameOfLife gameOfLife;
+    private String searchedFormation;
+    private JScrollPane scrollPane;
 
     public EastPanel(AbstractGameOfLife gameOfLife) {
         this.gameOfLife = gameOfLife;
+        this.searchedFormation = "";
     }
 
     @Override
@@ -25,11 +34,43 @@ public class EastPanel extends MyPanel {
         this.setLayout(new BorderLayout());
         this.setBorder(new TitledBorder("Strukturen"));
 
+        createScrollPane();
+
+
+        JTextField searchField = new JTextField();
+        this.add(searchField, BorderLayout.NORTH);
+        searchField.requestFocus();
+        searchField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                searchedFormation = searchField.getText();
+
+                remove(scrollPane);
+                createScrollPane();
+
+                revalidate();
+                repaint();
+            }
+        });
+
+    }
+
+
+    private void createScrollPane() {
         JPanel structuresPane = new JPanel();
         structuresPane.setLayout(new BoxLayout(structuresPane, BoxLayout.Y_AXIS));
 
-
-        JScrollPane scrollPane = new JScrollPane(structuresPane);
+        scrollPane = new JScrollPane(structuresPane);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.getVerticalScrollBar().setUnitIncrement(40);
@@ -40,8 +81,14 @@ public class EastPanel extends MyPanel {
         dimension.setSize(250, 100);
         scrollPane.setPreferredSize(dimension);
 
-        Formation.getValues().forEach(formation -> structuresPane.add(this.createFormationPanel(formation)));
+        Formation.getValues().stream()
+                .filter(formation -> formation.getName().contains(searchedFormation.toUpperCase()))
+                .forEach(formation -> structuresPane.add(createFormationPanel(formation)));
 
+
+        Formation.getValues().stream()
+                .filter(formation -> !formation.getName().contains(searchedFormation.toUpperCase()))
+                .forEach(formation -> structuresPane.add(createFormationPanel(formation)));
     }
 
     private JPanel createFormationPanel(Formation formation) {
@@ -59,7 +106,12 @@ public class EastPanel extends MyPanel {
         formationPanel.add(littleDrawPanel);
         formationPanel.add(infoButton);
 
-        formationPanel.addMouseListener(new MouseListener() {
+        formationPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                Main.setCurrentlyChosenPattern(board);
+            }
+
             @Override
             public void mouseClicked(MouseEvent e) {
                 Main.setCurrentlyChosenPattern(board);
@@ -67,21 +119,7 @@ public class EastPanel extends MyPanel {
 
             @Override
             public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
+                Main.setCurrentlyChosenPattern(board);
             }
         });
 

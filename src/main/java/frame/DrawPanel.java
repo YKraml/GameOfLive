@@ -16,6 +16,7 @@ public class DrawPanel extends MyPanel {
     private static final Color DEAD_CELL_COLOR = new Color(224, 242, 255);
     private static final Color FOREIGN_CELL_COLOR = Color.ORANGE;
     private static final Color MOUSE_COLOR = Color.GREEN;
+    private static final int MAX_LINES = 100;
 
     private final AbstractGameOfLife gameOfLive;
     private final int width;
@@ -27,8 +28,8 @@ public class DrawPanel extends MyPanel {
     private double worldXOffset;
     private double worldYOffset;
 
-    private double zoomX = 10;
-    private double zoomY = 10;
+    private double zoomX = 8;
+    private double zoomY = 8;
 
     public DrawPanel(int width, int height, AbstractGameOfLife gameOfLive) {
         this.gameOfLive = gameOfLive;
@@ -47,24 +48,6 @@ public class DrawPanel extends MyPanel {
             drawCell(g, myPoint);
         });
 
-
-        g.setColor(BACKGROUND_COLOR);
-        int verticalLineCount = (int) (this.getHeight() / zoomY + 1);
-        for (int i = 0; i < verticalLineCount; i++) {
-            int lineYPixel = (int) (zoomY * i + this.worldYOffset * zoomY % zoomY);
-            g.drawLine(0, lineYPixel, this.getWidth(), lineYPixel);
-        }
-        int horizontalLineCount = (int) (this.getWidth() / zoomX + 1);
-        for (int i = 0; i < horizontalLineCount; i++) {
-            int lineXPixel = (int) (zoomX * i + this.worldXOffset * zoomX % zoomX);
-            g.drawLine(lineXPixel, 0, lineXPixel, this.getHeight());
-        }
-
-        g.setColor(MOUSE_COLOR);
-        MyPoint mousePos = new MyPoint((int) mouseXPos, (int) mouseYPos);
-        drawCell(g, mousePos);
-
-
         g.setColor(FOREIGN_CELL_COLOR);
         Optional<Board> foreignBoardOptional = Main.getCurrentlyChosenPattern();
         foreignBoardOptional.ifPresent(foreignBoard -> {
@@ -82,6 +65,27 @@ public class DrawPanel extends MyPanel {
                 }
             }
         });
+
+        g.setColor(BACKGROUND_COLOR);
+        int verticalLineCount = (int) (this.getHeight() / zoomY) + 2;
+        for (int i = 0; i < verticalLineCount; i++) {
+            if (verticalLineCount < MAX_LINES) {
+                int lineYPixel = (int) (zoomY * i + this.worldYOffset * zoomY % zoomY);
+                g.drawLine(0, lineYPixel, this.getWidth(), lineYPixel);
+            }
+        }
+        int horizontalLineCount = (int) (this.getWidth() / zoomX) + 2;
+        for (int i = 0; i < horizontalLineCount; i++) {
+            if (horizontalLineCount < MAX_LINES) {
+                int lineXPixel = (int) (zoomX * i + this.worldXOffset * zoomX % zoomX);
+                g.drawLine(lineXPixel, 0, lineXPixel, this.getHeight());
+            }
+        }
+
+        g.setColor(MOUSE_COLOR);
+        MyPoint mousePos = new MyPoint((int) mouseXPos, (int) mouseYPos);
+        Main.getMousePos().setLocation(mouseXPos, mouseYPos);
+        drawCell(g, mousePos);
 
 
     }
@@ -117,10 +121,6 @@ public class DrawPanel extends MyPanel {
     }
 
     public void setZoomX(double zoomX) {
-        if (zoomX < 3) {
-            this.zoomX = 3;
-            return;
-        }
         this.zoomX = zoomX;
     }
 
@@ -129,10 +129,6 @@ public class DrawPanel extends MyPanel {
     }
 
     public void setZoomY(double zoomY) {
-        if (zoomY < 3) {
-            this.zoomY = 3;
-            return;
-        }
         this.zoomY = zoomY;
     }
 
