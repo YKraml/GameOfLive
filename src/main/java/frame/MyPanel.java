@@ -9,7 +9,7 @@ public abstract class MyPanel extends JPanel {
 
     private final Collection<MyPanel> innerMyPanels;
     private final Collection<JComponent> componentsToDraw;
-    private final Map<JLabel, IntWrapper> labelCouples;
+    private final Map<JLabel, Object> labelCouples;
 
     public MyPanel() {
         this.innerMyPanels = Collections.synchronizedSet(new HashSet<>());
@@ -22,7 +22,7 @@ public abstract class MyPanel extends JPanel {
         return Collections.unmodifiableCollection(componentsToDraw);
     }
 
-    public final Map<JLabel, IntWrapper> getLabelCouples() {
+    public final Map<JLabel, ?> getLabelCouples() {
         this.innerMyPanels.forEach(myPanel -> labelCouples.putAll(myPanel.getLabelCouples()));
         return Collections.unmodifiableMap(labelCouples);
     }
@@ -42,8 +42,8 @@ public abstract class MyPanel extends JPanel {
         this.componentsToDraw.add(jComponent);
     }
 
-    protected final void addLabelCouple(JLabel jLabel, IntWrapper intWrapper) {
-        this.labelCouples.put(jLabel, intWrapper);
+    protected final void addLabelCouple(JLabel jLabel, Object coupledObject) {
+        this.labelCouples.put(jLabel, coupledObject);
     }
 
 

@@ -2,10 +2,7 @@ package model;
 
 import main.IntWrapper;
 
-import java.awt.*;
 import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class GameOfLife2 extends AbstractGameOfLife {
 
@@ -151,7 +148,7 @@ public class GameOfLife2 extends AbstractGameOfLife {
     @Override
     public Board getBoard() {
         Board board = new Board(STANDARD_SIZE);
-        this.aliveCells.forEach((myPoint, cell) -> board.setCellAlive(myPoint.getX(), myPoint.getY()));
+        this.aliveCells.forEach((myPoint, cell) -> board.setCellAlive((int) myPoint.getX(), (int)myPoint.getY()));
         return board;
     }
 

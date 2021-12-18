@@ -7,10 +7,13 @@ import runnables.DrawComponentsRunnable;
 import runnables.MakeRoundRunnable;
 import runnables.UpdateLabelsRunnable;
 
+import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.lang.management.OperatingSystemMXBean;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
@@ -22,6 +25,7 @@ public class Main {
 
     private static final IntWrapper calculatedRounds = new IntWrapper();
     private static final IntWrapper calculatedFps = new IntWrapper();
+    private static final Point mousePos = new Point(0,0);
 
     private static Board currentlyChosenPattern;
 
@@ -103,7 +107,13 @@ public class Main {
         Main.currentlyChosenPattern = currentlyChosenPattern;
     }
 
-    public static Board getCurrentlyChosenPattern() {
-        return currentlyChosenPattern;
+    public static Optional<Board> getCurrentlyChosenPattern() {
+        return Optional.ofNullable(currentlyChosenPattern);
     }
+
+    public static Point getMousePos() {
+        return mousePos;
+    }
+
+
 }

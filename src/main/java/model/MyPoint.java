@@ -4,20 +4,20 @@ import java.util.Objects;
 
 public class MyPoint {
 
-    private final int x;
-    private final int y;
+    private final double x;
+    private final double y;
 
-    public MyPoint(int x, int y) {
+    public MyPoint(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
@@ -34,4 +34,5 @@ public class MyPoint {
     public int hashCode() {
         return Objects.hash(x, y);
     }
+
 }

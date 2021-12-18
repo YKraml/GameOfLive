@@ -15,11 +15,12 @@ public class CenterPanel extends MyPanel {
 
 
     public void init() {
-        DrawPanel drawPanel = new DrawPanel(800,800, this.gameOfLife);
+        DrawPanel drawPanel = new DrawPanel(700,700, this.gameOfLife);
 
-        MouseAdapter mouseAdapter = new MyMouseMotionListener(gameOfLife, drawPanel);
+        MouseAdapter mouseAdapter = new MyMouseAdapter(gameOfLife, drawPanel);
         drawPanel.addMouseMotionListener(mouseAdapter);
         drawPanel.addMouseListener(mouseAdapter);
+        drawPanel.addMouseWheelListener(mouseAdapter);
 
         this.setBorder(BorderFactory.createTitledBorder("Board"));
         this.add(drawPanel);

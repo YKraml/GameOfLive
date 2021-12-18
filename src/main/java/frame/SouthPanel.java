@@ -24,11 +24,12 @@ public class SouthPanel extends MyPanel {
         //StatsPanel
         JPanel statsPanel = new JPanel();
         statsPanel.setBorder(BorderFactory.createTitledBorder("Stats"));
-        statsPanel.setLayout(new GridLayout(4, 2));
+        statsPanel.setLayout(new GridLayout(5, 2));
         JLabel calculatedRoundsLabel = new JLabel(Main.getCalculatedRounds().toString());
         JLabel calculatedFpsLabel = new JLabel(Main.getCalculatedFps().toString());
         JLabel updatedAmountLabel = new JLabel(String.valueOf(gameOfLife.getUpdatedAmount()));
         JLabel checkedAmountLabel = new JLabel(String.valueOf(gameOfLife.getCheckedAmount()));
+        JLabel mousePosAmountLabel = new JLabel(String.valueOf(Main.getMousePos()));
         statsPanel.add(new JLabel("Frames per Second: "));
         statsPanel.add(calculatedFpsLabel);
         statsPanel.add(new JLabel("Updates per Second: "));
@@ -37,6 +38,8 @@ public class SouthPanel extends MyPanel {
         statsPanel.add(updatedAmountLabel);
         statsPanel.add(new JLabel("Cell-Checked per Tick: "));
         statsPanel.add(checkedAmountLabel);
+        statsPanel.add(new JLabel("Mouse Position: "));
+        statsPanel.add(mousePosAmountLabel);
 
         //ShuffleButton
         JButton button = new JButton("Shuffle");
@@ -82,6 +85,7 @@ public class SouthPanel extends MyPanel {
         this.addLabelCouple(calculatedFpsLabel, Main.getCalculatedFps());
         this.addLabelCouple(checkedAmountLabel, gameOfLife.getCheckedAmount());
         this.addLabelCouple(updatedAmountLabel, gameOfLife.getUpdatedAmount());
+        this.addLabelCouple(mousePosAmountLabel, Main.getMousePos());
 
     }
 

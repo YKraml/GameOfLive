@@ -4,15 +4,16 @@ import main.IntWrapper;
 import main.Main;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class UpdateLabelsRunnable extends MyLoopRunnable {
 
 
-    private final Map<JLabel, IntWrapper> labels;
+    private final Map<JLabel, ?> labels;
 
-    public UpdateLabelsRunnable(Map<JLabel, IntWrapper> labels) {
+    public UpdateLabelsRunnable(Map<JLabel, ?> labels) {
         this.labels = labels;
     }
 
@@ -25,8 +26,14 @@ public class UpdateLabelsRunnable extends MyLoopRunnable {
     protected void toToInLoop() {
 
         labels.forEach((jLabel, intWrapper) -> {
-            jLabel.setText(intWrapper.toString());
-            intWrapper.setNumber(0);
+
+            if (intWrapper instanceof IntWrapper) {
+                jLabel.setText(intWrapper.toString());
+                ((IntWrapper) intWrapper).setNumber(0);
+            }
+            if (intWrapper instanceof Point) {
+                jLabel.setText("(" + ((Point) intWrapper).x + "|" + ((Point) intWrapper).y + ")");
+            }
         });
     }
 }
