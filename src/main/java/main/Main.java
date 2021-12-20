@@ -12,7 +12,6 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.lang.management.OperatingSystemMXBean;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -35,7 +34,7 @@ public class Main {
         Formation.init();
 
         //AbstractGameOfLife gameOfLife = new GameOfLife(new Board(BOARD_SIZE));
-        AbstractGameOfLife gameOfLife = new GameOfLife2();
+        AbstractGameOfLife gameOfLife = new GameOfLive();
 
         MainPanel mainPanel = new MainPanel(gameOfLife);
         mainPanel.initAll();

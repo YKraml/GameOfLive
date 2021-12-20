@@ -1,49 +1,48 @@
 model/Board.java
  model.Board
-frame/MainPanel.java
- frame.MainPanel
+runnables/DrawComponentsRunnable.java
+ runnables.DrawComponentsRunnable
 model/Formation.java
  model.Formation
-frame/SouthPanel.java
- frame.SouthPanel
-frame/LittleDrawPanel.java
- frame.LittleDrawPanel
-frame/EastPanel.java
- frame.EastPanel
- frame.EastPanel$1
+frame/MainFrame.java
+ frame.MainFrame
 model/Location.java
  model.Location
+frame/LittleDrawPanel.java
+ frame.LittleDrawPanel
 model/Neighborhood.java
  model.Neighborhood
-runnables/MakeRoundRunnable.java
- runnables.MakeRoundRunnable
+runnables/MyLoopRunnable.java
+ runnables.MyLoopRunnable
+main/IntWrapper.java
+ main.IntWrapper
 model/Cell.java
  model.Cell
 runnables/UpdateLabelsRunnable.java
  runnables.UpdateLabelsRunnable
-model/AbstractGameOfLife.java
- model.AbstractGameOfLife
+frame/EastPanel.java
+ frame.EastPanel
+ frame.EastPanel$1
+ frame.EastPanel$2
 frame/MyPanel.java
  frame.MyPanel
-main/IntWrapper.java
- main.IntWrapper
-runnables/DrawComponentsRunnable.java
- runnables.DrawComponentsRunnable
-frame/MainFrame.java
- frame.MainFrame
-runnables/MyLoopRunnable.java
- runnables.MyLoopRunnable
-model/GameOfLife.java
- model.GameOfLife
-main/Main.java
- main.Main
 model/MyPoint.java
  model.MyPoint
-model/GameOfLife2.java
- model.GameOfLife2
+model/AbstractGameOfLife.java
+ model.AbstractGameOfLife
+main/Main.java
+ main.Main
+runnables/MakeRoundRunnable.java
+ runnables.MakeRoundRunnable
+model/GameOfLive.java
+ model.GameOfLive
+frame/MyMouseAdapter.java
+ frame.MyMouseAdapter
 frame/CenterPanel.java
  frame.CenterPanel
 frame/DrawPanel.java
  frame.DrawPanel
-frame/MyMouseAdapter.java
- frame.MyMouseAdapter
+frame/MainPanel.java
+ frame.MainPanel
+frame/SouthPanel.java
+ frame.SouthPanel

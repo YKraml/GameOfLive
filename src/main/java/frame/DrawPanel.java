@@ -16,7 +16,7 @@ public class DrawPanel extends MyPanel {
     private static final Color DEAD_CELL_COLOR = new Color(224, 242, 255);
     private static final Color FOREIGN_CELL_COLOR = Color.ORANGE;
     private static final Color MOUSE_COLOR = Color.GREEN;
-    private static final int MAX_LINES = 100;
+    private static final int MAX_LINES = 150;
 
     private final AbstractGameOfLife gameOfLive;
     private final int width;
@@ -80,6 +80,19 @@ public class DrawPanel extends MyPanel {
                 int lineXPixel = (int) (zoomX * i + this.worldXOffset * zoomX % zoomX);
                 g.drawLine(lineXPixel, 0, lineXPixel, this.getHeight());
             }
+        }
+
+        if (gameOfLive.isWrapped()) {
+            g.setColor(BACKGROUND_COLOR);
+            MyPoint topLeft = calcWorldToScreen(new MyPoint(0, 0));
+            MyPoint topRight = calcWorldToScreen(new MyPoint(gameOfLive.getWidth(), 0));
+            MyPoint bottomLeft = calcWorldToScreen(new MyPoint(0, gameOfLive.getHeight()));
+
+            g.fillRect(0, 0, getWidth(), (int) (topRight.getY()));
+            g.fillRect(0, (int) bottomLeft.getY(), getWidth(), (int) (getHeight() - bottomLeft.getY()));
+            g.fillRect(0, 0, (int) topLeft.getX(), getHeight());
+            g.fillRect((int) topRight.getX(), 0, (int) (getWidth() - topRight.getX()), getHeight());
+
         }
 
         g.setColor(MOUSE_COLOR);

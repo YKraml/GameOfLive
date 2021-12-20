@@ -35,4 +35,11 @@ public class MyPoint {
         return Objects.hash(x, y);
     }
 
+    @Override
+    public String toString() {
+        return "MyPoint{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

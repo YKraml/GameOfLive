@@ -4,9 +4,9 @@ import main.IntWrapper;
 
 import java.util.*;
 
-public class GameOfLife2 extends AbstractGameOfLife {
+public class GameOfLive extends AbstractGameOfLife {
 
-    private static final int STANDARD_SIZE = 100;
+
     private final Map<MyPoint, Cell> aliveCells;
 
     private final IntWrapper checkedAmount;
@@ -15,7 +15,7 @@ public class GameOfLife2 extends AbstractGameOfLife {
     private final Set<MyPoint> pointsToBeRemoved;
     private final Set<MyPoint> pointsToBeAdded;
 
-    public GameOfLife2() {
+    public GameOfLive() {
 
         this.pointsToBeRemoved = Collections.synchronizedSet(new HashSet<>());
         this.pointsToBeAdded = Collections.synchronizedSet(new HashSet<>());
@@ -41,11 +41,11 @@ public class GameOfLife2 extends AbstractGameOfLife {
     @Override
     public void shuffle() {
         this.clear();
-        for (int i = 0; i < 2000; i++) {
+        for (int i = 0; i < size * 20; i++) {
             Cell cell = new Cell();
             cell.markToBeBorn().update();
-            int x = (int) (Math.random() * 100);
-            int y = (int) (Math.random() * 100);
+            int x = (int) (Math.random() * size);
+            int y = (int) (Math.random() * size);
             MyPoint point = new MyPoint(x, y);
             this.aliveCells.put(point, cell);
         }
@@ -68,13 +68,14 @@ public class GameOfLife2 extends AbstractGameOfLife {
 
     @Override
     public int getWidth() {
-        return STANDARD_SIZE;
+        return size;
     }
 
     @Override
     public int getHeight() {
-        return STANDARD_SIZE;
+        return size;
     }
+
 
     @Override
     public void makeRound() {
@@ -108,7 +109,9 @@ public class GameOfLife2 extends AbstractGameOfLife {
 
         int aliveNeighborsCount = 0;
         for (Location location : Location.values()) {
-            MyPoint point = new MyPoint(myPoint.getX() + location.getxOffset(), myPoint.getY() + location.getyOffset());
+            double x = wrapCoordinate(myPoint.getX() + location.getxOffset());
+            double y = wrapCoordinate(myPoint.getY() + location.getyOffset());
+            MyPoint point = new MyPoint(x, y);
             if (this.aliveCells.containsKey(point) && !point.equals(myPoint)) {
                 aliveNeighborsCount++;
             }
@@ -123,9 +126,15 @@ public class GameOfLife2 extends AbstractGameOfLife {
 
         this.aliveCells.forEach((myPoint, cell) -> {
 
+            if (wrapped && (myPoint.getX() < 0 || myPoint.getY() < 0 || myPoint.getX() >= size || myPoint.getY() >= size)) {
+                this.pointsToBeRemoved.add(myPoint);
+            }
+
             for (Location location : Location.values()) {
 
-                MyPoint neighborPoint = new MyPoint(myPoint.getX() + location.getxOffset(), myPoint.getY() + location.getyOffset());
+                double neighborXLoc = wrapCoordinate(myPoint.getX() + location.getxOffset());
+                double neighborYLoc = wrapCoordinate(myPoint.getY() + location.getyOffset());
+                MyPoint neighborPoint = new MyPoint(neighborXLoc, neighborYLoc);
 
                 amount.addNumber(1);
 
@@ -145,10 +154,17 @@ public class GameOfLife2 extends AbstractGameOfLife {
 
     }
 
+    private double wrapCoordinate(double coordinate) {
+        if (wrapped) {
+            return ((coordinate % size) + size) % size;
+        }
+        return coordinate;
+    }
+
     @Override
     public Board getBoard() {
-        Board board = new Board(STANDARD_SIZE);
-        this.aliveCells.forEach((myPoint, cell) -> board.setCellAlive((int) myPoint.getX(), (int)myPoint.getY()));
+        Board board = new Board(size);
+        this.aliveCells.forEach((myPoint, cell) -> board.setCellAlive((int) myPoint.getX(), (int) myPoint.getY()));
         return board;
     }
 
@@ -156,6 +172,7 @@ public class GameOfLife2 extends AbstractGameOfLife {
     public Collection<MyPoint> getAlivePoints() {
         return this.aliveCells.keySet();
     }
+
 
 
 }

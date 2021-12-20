@@ -5,6 +5,10 @@ import main.IntWrapper;
 import java.util.Collection;
 
 public abstract class AbstractGameOfLife {
+
+    protected boolean wrapped;
+    protected int size = 70;
+
     public abstract IntWrapper getUpdatedAmount();
 
     public abstract IntWrapper getCheckedAmount();
@@ -24,4 +28,20 @@ public abstract class AbstractGameOfLife {
     public abstract Board getBoard();
 
     public abstract Collection<MyPoint> getAlivePoints();
+
+    public boolean isWrapped() {
+        return wrapped;
+    }
+
+    public void setWrapped(boolean wrapped) {
+        this.wrapped = wrapped;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
 }

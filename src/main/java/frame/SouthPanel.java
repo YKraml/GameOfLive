@@ -4,7 +4,11 @@ import main.Main;
 import model.AbstractGameOfLife;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,12 +18,12 @@ public class SouthPanel extends MyPanel {
     private final AbstractGameOfLife gameOfLife;
     private final List<JComponent> componentsToDraw;
 
-    public SouthPanel(AbstractGameOfLife gameOfLife){
+    public SouthPanel(AbstractGameOfLife gameOfLife) {
         this.componentsToDraw = Collections.synchronizedList(new ArrayList<>());
         this.gameOfLife = gameOfLife;
     }
 
-    public void init(){
+    public void init() {
 
         //StatsPanel
         JPanel statsPanel = new JPanel();
@@ -73,6 +77,21 @@ public class SouthPanel extends MyPanel {
         });
 
 
+        JCheckBox jCheckBox = new JCheckBox("Wrap with size:");
+        jCheckBox.addActionListener(e -> gameOfLife.setWrapped(((JCheckBox) e.getSource()).isSelected()));
+
+        JTextField textField = new JTextField(String.valueOf(gameOfLife.getSize()), 5);
+        textField.addActionListener(e -> {
+            String input = ((JTextField) e.getSource()).getText();
+            try {
+                int size = Integer.parseInt(input);
+                gameOfLife.setSize(size);
+            } catch (NumberFormatException exception) {
+                textField.setText(String.valueOf(gameOfLife.getSize()));
+            }
+
+        });
+
         //SouthPanel
         this.setBorder(BorderFactory.createTitledBorder("More"));
         this.add(statsPanel);
@@ -80,6 +99,8 @@ public class SouthPanel extends MyPanel {
         this.add(stopButton);
         this.add(clearButton);
         this.add(fpsSlider);
+        this.add(jCheckBox);
+        this.add(textField);
 
         this.addLabelCouple(calculatedRoundsLabel, Main.getCalculatedRounds());
         this.addLabelCouple(calculatedFpsLabel, Main.getCalculatedFps());
