@@ -1,10 +1,5 @@
 package model;
 
-import java.awt.*;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-
 public class Board {
 
     private static final double SHUFFLE_CONSTANT = 0.8;
@@ -45,69 +40,12 @@ public class Board {
         return this;
     }
 
-    public Neighborhood getNeighborsFromCell(Cell cell) {
-
-        Point point = this.getPositionOfCell(cell);
-
-        Cell[] neighbors = new Cell[Location.values().length];
-        Location[] values = Location.values();
-        for (Location location : values) {
-
-            int xPosNeighbor;
-            int yPosNeighbor;
-
-            xPosNeighbor = calcNormalisedPosition(point.x, this.getWidth(), location.getxOffset());
-            yPosNeighbor = calcNormalisedPosition(point.y, this.getHeight(), location.getyOffset());
-
-            neighbors[location.getLocationInArray()] = this.cells[xPosNeighbor][yPosNeighbor];
-
-        }
-
-        return new Neighborhood(cell, neighbors);
-
-    }
-
-    private Point getPositionOfCell(Cell targetCell) {
-        for (int i = 0; i < this.cells.length; i++) {
-            Cell[] row = this.cells[i];
-            for (int j = 0; j < row.length; j++) {
-                Cell cell = row[j];
-                if (targetCell.equals(cell)) {
-                    return new Point(i, j);
-                }
-            }
-        }
-        throw new RuntimeException("Could not find cell");
-    }
-
-    private int calcNormalisedPosition(int pos, int size, int offset) {
-        return (((pos + offset) % size) + size) % size;
-    }
-
     public int getHeight() {
         return this.cells[0].length;
     }
 
     public int getWidth() {
         return this.cells.length;
-    }
-
-    public Collection<? extends Cell> getCellsAsCollection() {
-
-        Collection<Cell> cellCollection = new HashSet<>();
-        for (Cell[] row : this.cells) {
-            cellCollection.addAll(Arrays.asList(row));
-        }
-        return cellCollection;
-    }
-
-    public void clear() {
-        for (Cell[] row : this.cells) {
-            for (Cell cell : row) {
-                cell.markToBeKilled();
-                cell.update();
-            }
-        }
     }
 
     public void setCellAlive(int cellXPos, int cellYPos) {
@@ -122,7 +60,23 @@ public class Board {
         return this.cells[cellXPos][cellYPos];
     }
 
-    public void setCells(Cell[][] cells) {
-        this.cells = cells;
+    public Board getRotatedBoard() {
+
+        Cell[][] cells = new Cell[this.getHeight()][this.getWidth()];
+
+
+        for (int i = 0; i < this.getWidth(); i++) {
+            for (int j = 0; j < this.getHeight(); j++) {
+
+
+                int x = (((-j - 1) % this.getHeight()) + this.getHeight()) % this.getHeight();
+                int y = (((i) % this.getWidth()) + this.getWidth()) % this.getWidth();
+
+                cells[x][y] = this.cells[i][j];
+
+            }
+        }
+
+        return new Board(cells);
     }
 }

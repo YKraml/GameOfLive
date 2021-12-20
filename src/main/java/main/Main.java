@@ -8,12 +8,17 @@ import runnables.MakeRoundRunnable;
 import runnables.UpdateLabelsRunnable;
 
 import java.awt.*;
+import java.awt.event.AWTEventListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class Main {
 
@@ -24,7 +29,7 @@ public class Main {
 
     private static final IntWrapper calculatedRounds = new IntWrapper();
     private static final IntWrapper calculatedFps = new IntWrapper();
-    private static final Point mousePos = new Point(0,0);
+    private static final Point mousePos = new Point(0, 0);
 
     private static Board currentlyChosenPattern;
 
@@ -45,11 +50,21 @@ public class Main {
         myFrame.pack();
 
 
+        Toolkit.getDefaultToolkit().addAWTEventListener(event -> {
+            if (event.getID() == KeyEvent.KEY_PRESSED) {
+                KeyEvent kEvent = (KeyEvent) event;
+                char pressedKey = kEvent.getKeyChar();
+                if (pressedKey == 'r') {
+                    getCurrentlyChosenPattern().ifPresent(board -> setCurrentlyChosenPattern(board.getRotatedBoard()));
+                }
+
+            }
+        }, AWTEvent.KEY_EVENT_MASK);
+
+
         new Thread(new MakeRoundRunnable(gameOfLife)).start();
         new Thread(new DrawComponentsRunnable(mainPanel.getComponentsToDraw(), FPS)).start();
         new Thread(new UpdateLabelsRunnable(mainPanel.getLabelCouples())).start();
-
-
 
 
     }

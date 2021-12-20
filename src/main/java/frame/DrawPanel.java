@@ -57,8 +57,15 @@ public class DrawPanel extends MyPanel {
 
                     if (foreignBoard.getCellAt(i, j).isALive()) {
 
+
                         int xCord = (int) (i + this.mouseXPos - foreignBoard.getWidth() / 2);
                         int yCord = (int) (j + this.mouseYPos - foreignBoard.getHeight() / 2);
+
+                        if (gameOfLive.isWrapped()) {
+                            xCord = ((xCord % gameOfLive.getWidth()) + gameOfLive.getWidth()) % gameOfLive.getWidth();
+                            yCord = ((yCord % gameOfLive.getWidth()) + gameOfLive.getWidth()) % gameOfLive.getWidth();
+                        }
+
                         drawCell(g, new MyPoint(xCord, yCord));
 
                     }

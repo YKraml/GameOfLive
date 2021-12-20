@@ -3,7 +3,9 @@ package frame;
 import main.IntWrapper;
 
 import javax.swing.*;
+import java.awt.event.KeyListener;
 import java.util.*;
+import java.util.function.Consumer;
 
 public abstract class MyPanel extends JPanel {
 
@@ -32,6 +34,11 @@ public abstract class MyPanel extends JPanel {
         this.innerMyPanels.forEach(MyPanel::initAll);
     }
 
+    public void addKeyListenerToAll(KeyListener keyListener) {
+        this.addKeyListener(keyListener);
+        this.innerMyPanels.forEach(myPanel -> myPanel.addKeyListenerToAll(keyListener));
+    }
+
     protected abstract void init();
 
     protected final void addInnerMyPanel(MyPanel myPanel) {
@@ -45,6 +52,4 @@ public abstract class MyPanel extends JPanel {
     protected final void addLabelCouple(JLabel jLabel, Object coupledObject) {
         this.labelCouples.put(jLabel, coupledObject);
     }
-
-
 }

@@ -114,7 +114,16 @@ public class MyMouseAdapter extends MouseAdapter {
                     Cell cell = board.getCellAt(i, j);
 
                     if (cell.isALive()) {
-                        gameOfLife.setCellAlive(i + (int) point.getX() - board.getWidth() / 2, j + (int) point.getY() - board.getHeight() / 2);
+
+                        int xCord = i + (int) point.getX() - board.getWidth() / 2;
+                        int yCord = j + (int) point.getY() - board.getHeight() / 2;
+
+                        if (gameOfLife.isWrapped()) {
+                            xCord = ((xCord % gameOfLife.getWidth()) + gameOfLife.getWidth()) % gameOfLife.getWidth();
+                            yCord = ((yCord % gameOfLife.getWidth()) + gameOfLife.getWidth()) % gameOfLife.getWidth();
+                        }
+
+                        gameOfLife.setCellAlive(xCord, yCord);
                     }
 
                 }
@@ -129,10 +138,10 @@ public class MyMouseAdapter extends MouseAdapter {
         MyPoint mousePosBefore = this.calcScreenToWorld(e.getPoint());
 
         int rotation = e.getWheelRotation();
-        if (rotation > 0) {
+        if (rotation < 0) {
             drawPanel.setZoomX(drawPanel.getZoomX() * 1.05);
             drawPanel.setZoomY(drawPanel.getZoomY() * 1.05);
-        } else if (rotation < 0) {
+        } else if (rotation > 0) {
             drawPanel.setZoomX(drawPanel.getZoomX() * 0.95);
             drawPanel.setZoomY(drawPanel.getZoomY() * 0.95);
         }
