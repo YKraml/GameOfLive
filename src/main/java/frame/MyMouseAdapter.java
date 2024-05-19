@@ -53,8 +53,8 @@ public class MyMouseAdapter extends MouseAdapter {
         }
 
         MyPoint point = calcScreenToWorld(e.getPoint());
-        drawPanel.setMouseXPos(point.getX());
-        drawPanel.setMouseYPos(point.getY());
+        drawPanel.setMouseXPos(point.x());
+        drawPanel.setMouseYPos(point.y());
         if (SwingUtilities.isLeftMouseButton(e)) {
             this.setCellAliveOrAddBoard(point);
         }
@@ -64,8 +64,8 @@ public class MyMouseAdapter extends MouseAdapter {
     @Override
     public void mouseMoved(MouseEvent e) {
         MyPoint point = calcScreenToWorld(e.getPoint());
-        drawPanel.setMouseXPos(point.getX());
-        drawPanel.setMouseYPos(point.getY());
+        drawPanel.setMouseXPos(point.x());
+        drawPanel.setMouseYPos(point.y());
     }
 
     @Override
@@ -78,8 +78,8 @@ public class MyMouseAdapter extends MouseAdapter {
 
 
         MyPoint point = calcScreenToWorld(e.getPoint());
-        drawPanel.setMouseXPos(point.getX());
-        drawPanel.setMouseYPos(point.getY());
+        drawPanel.setMouseXPos(point.x());
+        drawPanel.setMouseYPos(point.y());
 
         if (SwingUtilities.isLeftMouseButton(e)) {
             this.setCellAliveOrAddBoard(point);
@@ -115,8 +115,8 @@ public class MyMouseAdapter extends MouseAdapter {
 
                     if (cell.isALive()) {
 
-                        int xCord = i + (int) point.getX() - board.getWidth() / 2;
-                        int yCord = j + (int) point.getY() - board.getHeight() / 2;
+                        int xCord = i + (int) point.x() - board.getWidth() / 2;
+                        int yCord = j + (int) point.y() - board.getHeight() / 2;
 
                         if (gameOfLife.isWrapped()) {
                             xCord = ((xCord % gameOfLife.getWidth()) + gameOfLife.getWidth()) % gameOfLife.getWidth();
@@ -128,7 +128,7 @@ public class MyMouseAdapter extends MouseAdapter {
 
                 }
             }
-        }, () -> gameOfLife.setCellAlive((int) point.getX(), (int) point.getY()));
+        }, () -> gameOfLife.setCellAlive((int) point.x(), (int) point.y()));
     }
 
     @Override
@@ -147,15 +147,15 @@ public class MyMouseAdapter extends MouseAdapter {
         }
         MyPoint mousePosAfter = this.calcScreenToWorld(e.getPoint());
 
-        double xVector = mousePosBefore.getX() - mousePosAfter.getX();
-        double yVector = mousePosBefore.getY() - mousePosAfter.getY();
+        double xVector = mousePosBefore.x() - mousePosAfter.x();
+        double yVector = mousePosBefore.y() - mousePosAfter.y();
 
         drawPanel.setWorldXOffset(drawPanel.getWorldXOffset() - xVector);
         drawPanel.setWorldYOffset(drawPanel.getWorldYOffset() - yVector);
 
         MyPoint point = calcScreenToWorld(e.getPoint());
-        drawPanel.setMouseXPos(point.getX());
-        drawPanel.setMouseYPos(point.getY());
+        drawPanel.setMouseXPos(point.x());
+        drawPanel.setMouseYPos(point.y());
     }
 
 

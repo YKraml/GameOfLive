@@ -95,10 +95,10 @@ public class DrawPanel extends MyPanel {
             MyPoint topRight = calcWorldToScreen(new MyPoint(gameOfLive.getWidth(), 0));
             MyPoint bottomLeft = calcWorldToScreen(new MyPoint(0, gameOfLive.getHeight()));
 
-            g.fillRect(0, 0, getWidth(), (int) (topRight.getY()));
-            g.fillRect(0, (int) bottomLeft.getY(), getWidth(), (int) (getHeight() - bottomLeft.getY()));
-            g.fillRect(0, 0, (int) topLeft.getX(), getHeight());
-            g.fillRect((int) topRight.getX(), 0, (int) (getWidth() - topRight.getX()), getHeight());
+            g.fillRect(0, 0, getWidth(), (int) (topRight.y()));
+            g.fillRect(0, (int) bottomLeft.y(), getWidth(), (int) (getHeight() - bottomLeft.y()));
+            g.fillRect(0, 0, (int) topLeft.x(), getHeight());
+            g.fillRect((int) topRight.x(), 0, (int) (getWidth() - topRight.x()), getHeight());
 
         }
 
@@ -112,8 +112,8 @@ public class DrawPanel extends MyPanel {
 
     private void drawCell(Graphics g, MyPoint worldPoint) {
         MyPoint screenPoint = this.calcWorldToScreen(worldPoint);
-        int xPixel = (int) screenPoint.getX();
-        int yPixel = (int) screenPoint.getY();
+        int xPixel = (int) screenPoint.x();
+        int yPixel = (int) screenPoint.y();
         int width = (int) (zoomX + 1 - zoomX % 1);
         int height = (int) (zoomY + 1 - zoomY % 1);
         g.fillRect(xPixel, yPixel, width, height);
@@ -130,8 +130,8 @@ public class DrawPanel extends MyPanel {
 
     private MyPoint calcWorldToScreen(MyPoint worldPoint) {
 
-        double screenXPos = (this.getWorldXOffset() + worldPoint.getX()) * this.getZoomX();
-        double screenYPos = (this.getWorldYOffset() + worldPoint.getY()) * this.getZoomY();
+        double screenXPos = (this.getWorldXOffset() + worldPoint.x()) * this.getZoomX();
+        double screenYPos = (this.getWorldYOffset() + worldPoint.y()) * this.getZoomY();
 
         return new MyPoint(screenXPos, screenYPos);
     }

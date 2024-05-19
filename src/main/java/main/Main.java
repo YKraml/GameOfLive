@@ -11,10 +11,9 @@ import java.awt.*;
 import java.awt.event.AWTEventListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.Scanner;
@@ -34,11 +33,7 @@ public class Main {
     private static Board currentlyChosenPattern;
 
     public static void main(String[] args) {
-
-
         Formation.init();
-
-        //AbstractGameOfLife gameOfLife = new GameOfLife(new Board(BOARD_SIZE));
         AbstractGameOfLife gameOfLife = new GameOfLive();
 
         MainPanel mainPanel = new MainPanel(gameOfLife);
@@ -48,7 +43,6 @@ public class Main {
         myFrame.setVisible();
         myFrame.add(mainPanel);
         myFrame.pack();
-
 
         Toolkit.getDefaultToolkit().addAWTEventListener(event -> {
             if (event.getID() == KeyEvent.KEY_PRESSED) {
@@ -61,34 +55,19 @@ public class Main {
             }
         }, AWTEvent.KEY_EVENT_MASK);
 
-
         new Thread(new MakeRoundRunnable(gameOfLife)).start();
         new Thread(new DrawComponentsRunnable(mainPanel.getComponentsToDraw(), FPS)).start();
         new Thread(new UpdateLabelsRunnable(mainPanel.getLabelCouples())).start();
-
-
     }
 
 
     public static String readDataFromFile() {
-        String formattedData = "";
-        File file = new File("lexicon.txt");
         try {
-            BufferedInputStream bufferedReader = new BufferedInputStream(new FileInputStream(file));
-
-            Scanner sc = new Scanner(bufferedReader);
-
-            StringBuilder data = new StringBuilder();
-            while (sc.hasNextLine()) {
-                data.append(sc.nextLine());
-                data.append("\n");
-            }
-
-            formattedData = data.toString();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            String formattedData = Files.readString(Path.of("lexicon.txt"));
+            return formattedData.replace("\r", "");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return formattedData;
     }
 
 

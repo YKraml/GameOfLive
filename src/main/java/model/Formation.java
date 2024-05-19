@@ -68,14 +68,13 @@ public class Formation {
         Collection<String> formationCollection = new ArrayList<>();
         String formattedData = Main.readDataFromFile();
 
-        String regex2 = ":(.)+:(.)*\n(\\s\\s\\s(.)*\\n)*((\\t([\\*\\.])+\\n)+\\n)"; //Regex2: :(.)+:(.)*\n(\s\s\s(.)*\n)*((\t([\\.\\*])+\n)+\n)
+        String regex2 = ":(.)+:(.)*\n(\\s\\s\\s(.)*\\n)*((\\t([\\*\\.])+\\n)+\\n)";
 
         Pattern pattern = Pattern.compile(regex2);
         Matcher matcher = pattern.matcher(formattedData);
         while (matcher.find()) {
             formationCollection.add(matcher.group());
         }
-
 
         formationCollection.forEach(formationString -> {
 
