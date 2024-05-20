@@ -113,7 +113,7 @@ public class MyMouseAdapter extends MouseAdapter {
 
                     Cell cell = board.getCellAt(i, j);
 
-                    if (cell.isALive()) {
+                    if (cell.isAlive()) {
 
                         int xCord = i + (int) point.x() - board.getWidth() / 2;
                         int yCord = j + (int) point.y() - board.getHeight() / 2;

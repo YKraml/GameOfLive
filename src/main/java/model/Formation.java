@@ -48,11 +48,7 @@ public class Formation {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
                 char character = rows[i].toCharArray()[j];
-                Cell cell = new Cell();
-                cells[i][j] = cell;
-                if (character == ALIVE_CHAR) {
-                    cell.markToBeBorn().update();
-                }
+                cells[i][j] = new Cell(character == ALIVE_CHAR);
             }
         }
 

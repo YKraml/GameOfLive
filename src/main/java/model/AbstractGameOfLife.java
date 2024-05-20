@@ -6,8 +6,8 @@ import java.util.Collection;
 
 public abstract class AbstractGameOfLife {
 
-    protected boolean wrapped;
-    protected int size = 70;
+    protected boolean wrapped = true;
+    protected int size = 87;
 
     public abstract IntWrapper getUpdatedAmount();
 
@@ -24,8 +24,6 @@ public abstract class AbstractGameOfLife {
     public abstract int getHeight();
 
     public abstract void makeRound();
-
-    public abstract Board getBoard();
 
     public abstract Collection<MyPoint> getAlivePoints();
 

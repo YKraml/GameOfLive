@@ -1,7 +1,6 @@
 package frame;
 
 import main.Main;
-import model.AbstractGameOfLife;
 import model.Formation;
 import model.Board;
 
@@ -9,33 +8,22 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.text.Normalizer;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 public class EastPanel extends MyPanel {
 
-    private final AbstractGameOfLife gameOfLife;
     private String searchedFormation;
     private JScrollPane scrollPane;
 
-    public EastPanel(AbstractGameOfLife gameOfLife) {
-        this.gameOfLife = gameOfLife;
+    public EastPanel() {
         this.searchedFormation = "";
     }
 
     @Override
     protected void init() {
-
         this.setLayout(new BorderLayout());
         this.setBorder(new TitledBorder("Strukturen"));
 
         createScrollPane();
-
 
         JTextField searchField = new JTextField();
         this.add(searchField, BorderLayout.NORTH);
@@ -62,7 +50,6 @@ public class EastPanel extends MyPanel {
                 repaint();
             }
         });
-
     }
 
 
@@ -81,31 +68,14 @@ public class EastPanel extends MyPanel {
         dimension.setSize(250, 100);
         scrollPane.setPreferredSize(dimension);
 
-        Formation.getValues().stream()
-                .filter(formation -> formation.getName().contains(searchedFormation.toUpperCase()))
-                .forEach(formation -> structuresPane.add(createFormationPanel(formation)));
+        Formation.getValues().stream().filter(formation -> formation.getName().contains(searchedFormation.toUpperCase())).forEach(formation -> structuresPane.add(createFormationPanel(formation)));
 
-
-        Formation.getValues().stream()
-                .filter(formation -> !formation.getName().contains(searchedFormation.toUpperCase()))
-                .forEach(formation -> structuresPane.add(createFormationPanel(formation)));
+        Formation.getValues().stream().filter(formation -> !formation.getName().contains(searchedFormation.toUpperCase())).forEach(formation -> structuresPane.add(createFormationPanel(formation)));
     }
 
     private JPanel createFormationPanel(Formation formation) {
-
         Board board = formation.getBoardFromFormation();
-
-        LittleDrawPanel littleDrawPanel = new LittleDrawPanel(board, 200);
-
-        JButton infoButton = new JButton("Info");
-        infoButton.addActionListener(e -> JOptionPane.showMessageDialog(this, formation.getDescription()));
-
-        JPanel formationPanel = new JPanel();
-        formationPanel.setLayout(new BoxLayout(formationPanel, BoxLayout.Y_AXIS));
-        formationPanel.setBorder(new TitledBorder(formation.getName()));
-        formationPanel.add(littleDrawPanel);
-        formationPanel.add(infoButton);
-
+        JPanel formationPanel = getLittleDrawPanel(formation, board);
         formationPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -123,6 +93,20 @@ public class EastPanel extends MyPanel {
             }
         });
 
+        return formationPanel;
+    }
+
+    private JPanel getLittleDrawPanel(Formation formation, Board board) {
+        LittleDrawPanel littleDrawPanel = new LittleDrawPanel(board, 200);
+
+        JButton infoButton = new JButton("Info");
+        infoButton.addActionListener(e -> JOptionPane.showMessageDialog(this, formation.getDescription()));
+
+        JPanel formationPanel = new JPanel();
+        formationPanel.setLayout(new BoxLayout(formationPanel, BoxLayout.Y_AXIS));
+        formationPanel.setBorder(new TitledBorder(formation.getName()));
+        formationPanel.add(littleDrawPanel);
+        formationPanel.add(infoButton);
         return formationPanel;
     }
 

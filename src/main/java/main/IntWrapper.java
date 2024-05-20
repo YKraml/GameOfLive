@@ -12,8 +12,8 @@ public class IntWrapper {
         return number;
     }
 
-    public void addNumber(int numberToBeAdded) {
-        this.number += numberToBeAdded;
+    public void addOne() {
+        this.number += 1;
     }
 
     @Override

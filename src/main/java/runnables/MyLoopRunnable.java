@@ -8,12 +8,10 @@ public abstract class MyLoopRunnable implements Runnable {
 
     @Override
     public void run() {
-
         while (true) {
-
             long startTime = System.nanoTime();
 
-            this.toToInLoop();
+            toToInLoop();
 
             long endTime = System.nanoTime();
 

@@ -54,10 +54,7 @@ public class DrawPanel extends MyPanel {
 
             for (int i = 0; i < foreignBoard.getWidth(); i++) {
                 for (int j = 0; j < foreignBoard.getHeight(); j++) {
-
-                    if (foreignBoard.getCellAt(i, j).isALive()) {
-
-
+                    if (foreignBoard.getCellAt(i, j).isAlive()) {
                         int xCord = (int) (i + this.mouseXPos - foreignBoard.getWidth() / 2);
                         int yCord = (int) (j + this.mouseYPos - foreignBoard.getHeight() / 2);
 
@@ -67,7 +64,6 @@ public class DrawPanel extends MyPanel {
                         }
 
                         drawCell(g, new MyPoint(xCord, yCord));
-
                     }
                 }
             }
@@ -99,15 +95,12 @@ public class DrawPanel extends MyPanel {
             g.fillRect(0, (int) bottomLeft.y(), getWidth(), (int) (getHeight() - bottomLeft.y()));
             g.fillRect(0, 0, (int) topLeft.x(), getHeight());
             g.fillRect((int) topRight.x(), 0, (int) (getWidth() - topRight.x()), getHeight());
-
         }
 
         g.setColor(MOUSE_COLOR);
         MyPoint mousePos = new MyPoint((int) mouseXPos, (int) mouseYPos);
         Main.getMousePos().setLocation(mouseXPos, mouseYPos);
         drawCell(g, mousePos);
-
-
     }
 
     private void drawCell(Graphics g, MyPoint worldPoint) {
@@ -125,14 +118,11 @@ public class DrawPanel extends MyPanel {
         dimension.setSize(this.width, this.height);
         this.setPreferredSize(dimension);
         this.setBackground(DEAD_CELL_COLOR);
-
     }
 
     private MyPoint calcWorldToScreen(MyPoint worldPoint) {
-
         double screenXPos = (this.getWorldXOffset() + worldPoint.x()) * this.getZoomX();
         double screenYPos = (this.getWorldYOffset() + worldPoint.y()) * this.getZoomY();
-
         return new MyPoint(screenXPos, screenYPos);
     }
 
@@ -168,16 +158,8 @@ public class DrawPanel extends MyPanel {
         this.worldYOffset = worldYOffset;
     }
 
-    public double getMouseXPos() {
-        return mouseXPos;
-    }
-
     public void setMouseXPos(double mouseXPos) {
         this.mouseXPos = mouseXPos;
-    }
-
-    public double getMouseYPos() {
-        return mouseYPos;
     }
 
     public void setMouseYPos(double mouseYPos) {

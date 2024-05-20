@@ -6,24 +6,20 @@ import java.util.*;
 
 public class GameOfLive extends AbstractGameOfLife {
 
-
-    private final Map<MyPoint, Cell> aliveCells;
-
     private final IntWrapper checkedAmount;
     private final IntWrapper updatedAmount;
 
-    private final Set<MyPoint> pointsToBeRemoved;
-    private final Set<MyPoint> pointsToBeAdded;
+    private final Set<MyPoint> alivePoints;
+    private final Set<MyPoint> pointsToBeKilled;
+    private final Set<MyPoint> pointsToBeBorn;
 
     public GameOfLive() {
-        this.pointsToBeRemoved = Collections.synchronizedSet(new HashSet<>());
-        this.pointsToBeAdded = Collections.synchronizedSet(new HashSet<>());
-        this.aliveCells = Collections.synchronizedMap(new HashMap<>());
+        this.pointsToBeKilled = Collections.synchronizedSet(new HashSet<>());
+        this.pointsToBeBorn = Collections.synchronizedSet(new HashSet<>());
+        this.alivePoints = Collections.synchronizedSet(new HashSet<>());
 
         checkedAmount = new IntWrapper();
         updatedAmount = new IntWrapper();
-
-        this.shuffle();
     }
 
     @Override
@@ -40,28 +36,24 @@ public class GameOfLive extends AbstractGameOfLife {
     public void shuffle() {
         this.clear();
         for (int i = 0; i < size * size / 2; i++) {
-            Cell cell = new Cell();
-            cell.markToBeBorn().update();
             int x = (int) (Math.random() * size);
             int y = (int) (Math.random() * size);
             MyPoint point = new MyPoint(x, y);
-            this.aliveCells.put(point, cell);
+            this.alivePoints.add(point);
         }
     }
 
     @Override
     public void clear() {
-        this.aliveCells.clear();
-        this.pointsToBeAdded.clear();
-        this.pointsToBeRemoved.clear();
+        this.alivePoints.clear();
+        this.pointsToBeBorn.clear();
+        this.pointsToBeKilled.clear();
     }
 
     @Override
     public void setCellAlive(int xPos, int yPos) {
-        Cell cell = new Cell();
-        cell.markToBeBorn().update();
         MyPoint myPoint = new MyPoint(xPos, yPos);
-        this.aliveCells.put(myPoint, cell);
+        this.alivePoints.add(myPoint);
     }
 
     @Override
@@ -80,22 +72,20 @@ public class GameOfLive extends AbstractGameOfLife {
         this.checkCells();
         this.updateCells();
 
-        this.pointsToBeRemoved.clear();
-        this.pointsToBeAdded.clear();
+        this.pointsToBeKilled.clear();
+        this.pointsToBeBorn.clear();
     }
 
     private void updateCells() {
         IntWrapper amount = new IntWrapper();
 
-        this.pointsToBeRemoved.forEach(key -> {
-            aliveCells.remove(key);
-            amount.addNumber(1);
+        this.pointsToBeKilled.forEach(key -> {
+            alivePoints.remove(key);
+            amount.addOne();
         });
-        this.pointsToBeAdded.forEach(myPoint -> {
-            Cell cell = new Cell();
-            cell.markToBeBorn().update();
-            aliveCells.put(myPoint, cell);
-            amount.addNumber(1);
+        this.pointsToBeBorn.forEach(myPoint -> {
+            alivePoints.add(myPoint);
+            amount.addOne();
         });
 
         this.updatedAmount.setNumber(amount.getNumber());
@@ -108,7 +98,7 @@ public class GameOfLive extends AbstractGameOfLife {
             double x = wrapCoordinate(myPoint.x() + location.getxOffset());
             double y = wrapCoordinate(myPoint.y() + location.getyOffset());
             MyPoint point = new MyPoint(x, y);
-            if (this.aliveCells.containsKey(point) && !point.equals(myPoint)) {
+            if (this.alivePoints.contains(point) && !point.equals(myPoint)) {
                 aliveNeighborsCount++;
             }
         }
@@ -117,28 +107,25 @@ public class GameOfLive extends AbstractGameOfLife {
 
     private void checkCells() {
         IntWrapper amount = new IntWrapper();
-
-        aliveCells.keySet().forEach(myPoint -> {
+        alivePoints.forEach(myPoint -> {
             if (wrapped && (myPoint.x() < 0 || myPoint.y() < 0 || myPoint.x() >= size || myPoint.y() >= size)) {
-                this.pointsToBeRemoved.add(myPoint);
+                this.pointsToBeKilled.add(myPoint);
             }
 
             for (Location location : Location.values()) {
+                amount.addOne();
+
                 double neighborXLoc = wrapCoordinate(myPoint.x() + location.getxOffset());
                 double neighborYLoc = wrapCoordinate(myPoint.y() + location.getyOffset());
                 MyPoint neighborPoint = new MyPoint(neighborXLoc, neighborYLoc);
 
                 int aliveNeighborCount = getAliveNeighborCountFrom(neighborPoint);
                 if (aliveNeighborCount == 3) {
-                    this.pointsToBeAdded.add(neighborPoint);
-                } else if (aliveNeighborCount < 2) {
-                    this.pointsToBeRemoved.add(neighborPoint);
-                } else if (aliveNeighborCount > 3) {
-                    this.pointsToBeRemoved.add(neighborPoint);
+                    this.pointsToBeBorn.add(neighborPoint);
+                } else if (aliveNeighborCount < 2 || aliveNeighborCount > 3) {
+                    this.pointsToBeKilled.add(neighborPoint);
                 }
             }
-
-            amount.addNumber(1);
         });
 
         this.checkedAmount.setNumber(amount.getNumber());
@@ -152,14 +139,7 @@ public class GameOfLive extends AbstractGameOfLife {
     }
 
     @Override
-    public Board getBoard() {
-        Board board = new Board(size);
-        this.aliveCells.forEach((myPoint, cell) -> board.setCellAlive((int) myPoint.x(), (int) myPoint.y()));
-        return board;
-    }
-
-    @Override
     public Collection<MyPoint> getAlivePoints() {
-        return this.aliveCells.keySet();
+        return Collections.unmodifiableCollection(alivePoints);
     }
 }

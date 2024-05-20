@@ -44,7 +44,7 @@ public class LittleDrawPanel extends JPanel {
                 g.setColor(BACKGROUND_COLOR);
                 g.fillRect(pixelX, pixelY, xOffset, yOffset);
 
-                if (cell.isALive()) {
+                if (cell.isAlive()) {
                     g.setColor(ALIVE_CELL_COLOR);
                 } else {
                     g.setColor(DEAD_CELL_COLOR);

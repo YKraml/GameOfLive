@@ -19,12 +19,11 @@ public class MakeRoundRunnable extends MyLoopRunnable {
 
     @Override
     protected void toToInLoop() {
-        Main.getCalculatedRounds().addNumber(1);
+        Main.getCalculatedRounds().addOne();
         if (!Main.isStop()) {
             gameOfLife.makeRound();
         }
     }
-
 }
 
 

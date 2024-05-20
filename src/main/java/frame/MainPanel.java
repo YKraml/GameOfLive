@@ -6,7 +6,7 @@ import java.awt.*;
 
 import static java.awt.BorderLayout.*;
 
-public class MainPanel extends MyPanel{
+public class MainPanel extends MyPanel {
 
     private final AbstractGameOfLife gameOfLife;
 
@@ -14,12 +14,10 @@ public class MainPanel extends MyPanel{
         this.gameOfLife = gameOfLife;
     }
 
-
-    public void init(){
-
+    public void init() {
         SouthPanel southPanel = new SouthPanel(gameOfLife);
         CenterPanel centerPanel = new CenterPanel(gameOfLife);
-        EastPanel eastPanel = new EastPanel(gameOfLife);
+        EastPanel eastPanel = new EastPanel();
 
         this.setLayout(new BorderLayout());
         this.add(southPanel, SOUTH);
@@ -29,6 +27,5 @@ public class MainPanel extends MyPanel{
         this.addInnerMyPanel(centerPanel);
         this.addInnerMyPanel(southPanel);
         this.addInnerMyPanel(eastPanel);
-
     }
 }

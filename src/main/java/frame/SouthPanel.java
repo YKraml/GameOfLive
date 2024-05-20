@@ -36,9 +36,9 @@ public class SouthPanel extends MyPanel {
         JLabel mousePosAmountLabel = new JLabel(String.valueOf(Main.getMousePos()));
         statsPanel.add(new JLabel("Frames per Second: "));
         statsPanel.add(calculatedFpsLabel);
-        statsPanel.add(new JLabel("Updates per Second: "));
+        statsPanel.add(new JLabel("Ticks per Second: "));
         statsPanel.add(calculatedRoundsLabel);
-        statsPanel.add(new JLabel("Cell-Updates per Tick: "));
+        statsPanel.add(new JLabel("Cell-Updated per Tick: "));
         statsPanel.add(updatedAmountLabel);
         statsPanel.add(new JLabel("Cell-Checked per Tick: "));
         statsPanel.add(checkedAmountLabel);
@@ -58,9 +58,9 @@ public class SouthPanel extends MyPanel {
         clearButton.addActionListener(e -> gameOfLife.clear());
 
         //FpsSlider
-        JSlider fpsSlider = new JSlider(0, 150, 30);
-        fpsSlider.setMajorTickSpacing(30);
-        fpsSlider.setMinorTickSpacing(5);
+        JSlider fpsSlider = new JSlider(0, 500, 30);
+        fpsSlider.setMajorTickSpacing(100);
+        fpsSlider.setMinorTickSpacing(10);
         fpsSlider.setPaintTicks(true);
         fpsSlider.setPaintLabels(true);
         fpsSlider.setSnapToTicks(true);
@@ -78,6 +78,7 @@ public class SouthPanel extends MyPanel {
 
 
         JCheckBox jCheckBox = new JCheckBox("Wrap with size:");
+        jCheckBox.setSelected(true);
         jCheckBox.addActionListener(e -> gameOfLife.setWrapped(((JCheckBox) e.getSource()).isSelected()));
 
         JTextField textField = new JTextField(String.valueOf(gameOfLife.getSize()), 5);
@@ -89,7 +90,6 @@ public class SouthPanel extends MyPanel {
             } catch (NumberFormatException exception) {
                 textField.setText(String.valueOf(gameOfLife.getSize()));
             }
-
         });
 
         //SouthPanel
@@ -107,7 +107,6 @@ public class SouthPanel extends MyPanel {
         this.addLabelCouple(checkedAmountLabel, gameOfLife.getCheckedAmount());
         this.addLabelCouple(updatedAmountLabel, gameOfLife.getUpdatedAmount());
         this.addLabelCouple(mousePosAmountLabel, Main.getMousePos());
-
     }
 
 }

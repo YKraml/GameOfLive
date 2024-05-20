@@ -5,7 +5,6 @@ import main.Main;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Collection;
-import java.util.List;
 
 public class DrawComponentsRunnable extends MyLoopRunnable {
 
@@ -25,7 +24,7 @@ public class DrawComponentsRunnable extends MyLoopRunnable {
 
     @Override
     protected void toToInLoop() {
-        Main.getCalculatedFps().addNumber(1);
+        Main.getCalculatedFps().addOne();
         this.componentsToDraw.forEach(Component::repaint);
     }
 }

@@ -8,21 +8,15 @@ import runnables.MakeRoundRunnable;
 import runnables.UpdateLabelsRunnable;
 
 import java.awt.*;
-import java.awt.event.AWTEventListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.Optional;
-import java.util.Scanner;
-import java.util.function.Consumer;
 
 public class Main {
 
-    private static final int BOARD_SIZE = 100;
-    private static long TIME_BETWEEN_UPDATES_IN_NANO = (long) (33.3333333 * 1000 * 1000);
+    private static long timeBetweenUpdatesInNano = (long) (33.3333333 * 1000 * 1000);
     private final static long FPS = 60;
     private static boolean stop = true;
 
@@ -35,6 +29,7 @@ public class Main {
     public static void main(String[] args) {
         Formation.init();
         AbstractGameOfLife gameOfLife = new GameOfLive();
+        gameOfLife.shuffle();
 
         MainPanel mainPanel = new MainPanel(gameOfLife);
         mainPanel.initAll();
@@ -72,11 +67,11 @@ public class Main {
 
 
     public static long getTimeBetweenUpdatesInNano() {
-        return TIME_BETWEEN_UPDATES_IN_NANO;
+        return timeBetweenUpdatesInNano;
     }
 
     public static void setTimeBetweenUpdatesInNano(long timeBetweenUpdatesInNano) {
-        TIME_BETWEEN_UPDATES_IN_NANO = timeBetweenUpdatesInNano;
+        Main.timeBetweenUpdatesInNano = timeBetweenUpdatesInNano;
     }
 
     public static boolean isStop() {
