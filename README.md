@@ -1,6 +1,4 @@
-#Game of life
-Implementation vom Spiel des Lebens.
+#Conway's Game of Life
+Implementation of Conway's Game of Life.
 
-Es handelt sich hier um ein IntelliJ Projekt.
-Bei Bedarf können die Klassen auch einfach rauskopiert werden.
-Alles basiert ausschließlich auf Java.
+This is an IntelliJ project. If necessary, the classes can also be easily copied out. Everything is based exclusively on Java.
